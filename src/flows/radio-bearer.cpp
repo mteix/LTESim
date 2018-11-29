@@ -114,9 +114,8 @@ RadioBearer::UpdateAverageTransmissionRate ()
    * R'(t+1) = (0.8 * R'(t)) + (0.2 * r(t))
    */
 
-  double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
-/*
-  double beta = 0.2;
+double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
+/*  double beta = 0.2;
 
   m_averageTransmissionRate =
       ((1 - beta) * m_averageTransmissionRate) + (beta * rate);
@@ -127,6 +126,7 @@ RadioBearer::UpdateAverageTransmissionRate ()
     }
 
 */
+
 
   // 28-Nov-2018 by MJT 
   //#####################################
@@ -156,11 +156,11 @@ RadioBearer::UpdateAverageTransmissionRate ()
   
 
 
-std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate 
+/*std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate 
           << "\n Kalman parameters: P0 " << P0 << ", P1 " << P1 << ", K " << 
-          K << "xhatminus " << xhatminus  << " rate " << rate << std::endl;
+          K << "xhatminus " << xhatminus  << " rate " << rate << std::endl;*/
 
-
+std::cout << "AVG RATES " << m_averageTransmissionRate << ", " << rate << std::endl;
 
 #ifdef SCHEDULER_DEBUG
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer " << GetApplication ()->GetApplicationID () <<
