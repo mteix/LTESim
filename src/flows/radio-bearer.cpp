@@ -124,8 +124,8 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
     {
 	  m_averageTransmissionRate = 1;
     }
-
 */
+
 
 
   // 28-Nov-2018 by MJT 
