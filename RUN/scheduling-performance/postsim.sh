@@ -2,9 +2,12 @@ set -x
 set -e
 
 TOOLS="../../TOOLS"
-time=40
+#time=40
+time=6
 
-_NB_SCREENSHOT=40
+#_NB_SCREENSHOT=40
+_NB_SCREENSHOT=6
+
 _COUNT=1
 until [ $_COUNT -gt $_NB_SCREENSHOT ]; do
 for sched in  1 4 5 6           #scheduling algorithm
@@ -26,7 +29,8 @@ do
 	TPUTBE="OUT/TPUTBE_SCHED_${sched}_UE_${ue}_V_${v}_D_${del}"
 	
 	cd TRACE
-	unp ${FILEIN}.gz; 
+	#unp ${FILEIN}.gz; 
+	gunzip ${FILEIN}.gz; 
 	cd ..
 
 		grep -c "TX VIDEO" TRACE/${FILEIN} > tmp_plr_video

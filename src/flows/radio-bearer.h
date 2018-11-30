@@ -76,12 +76,14 @@ private:
 
 	// Kalman parameters
 
-	double P1;
+	
   	double P0;
+  	double Pminus;
   	double Q;
   	double R;
   	double K;
   	double xhatminus;
+  
 
 };
 
