@@ -34,7 +34,6 @@
 #include "../protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.h"
 #include "../protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.h"
 #include "../protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.h"
-
 #include "../phy/enb-lte-phy.h"
 #include "../core/spectrum/bandwidth-manager.h"
 #include "../protocolStack/packet/packet-burst.h"
@@ -360,13 +359,12 @@ ENodeB::GetDLScheduler (void) const
 void
 ENodeB::SetULScheduler (ULSchedulerType type)
 {
-  
   EnbMacEntity *mac = (EnbMacEntity*) GetProtocolStack ()->GetMacEntity ();
   PacketScheduler *scheduler;
   switch (type)
 	{
 	  case ENodeB::ULScheduler_TYPE_MAXIMUM_THROUGHPUT:
-  	scheduler = new MaximumThroughputUplinkPacketScheduler ();
+		scheduler = new MaximumThroughputUplinkPacketScheduler ();
 		scheduler->SetMacEntity (mac);
 		mac->SetUplinkPacketScheduler (scheduler);
 		break;

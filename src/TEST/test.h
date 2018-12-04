@@ -48,9 +48,9 @@ static void Test ()
 	TestDlTransmission ();
 	TestPropagationLossModel ();
 	TestCqiFeedbacks ();
-	TestMultiCell ();*/
+	TestMultiCell ();
 	TestFrequencyReuse ();
-   
+    */
 
-	//TestUplinkMaximumThroughput ();
+	TestUplinkMaximumThroughput ();
 }

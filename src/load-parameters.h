@@ -28,7 +28,7 @@
 
 
 /* path */
-static std::string path ("/Users/mjteixeira/LTESim/");
+static std::string path ("/home/marcio/LTESim/");
 
 
 /* tracing */
@@ -56,35 +56,33 @@ static bool _channel_TU_ = true;
 static bool _channel_AWGN_ = false;
 
 /* debugging */
-// #define APPLICATION_DEBUG
-// #define BEARER_DEBUG
-// #define RLC_DEBUG
-// #define MAC_QUEUE_DEBUG
-// #define FLOW_MANAGER_DEBUG
-// #define FRAME_MANAGER_DEBUG
-// #define ENODEB_DEBUG
-// #define UE_DEBUG
-// #define PHY_DEBUG
-// #define SINR_DEBUG
-// #define BLER_DEBUG
-// //#define MOBILITY_DEBUG
-// //#define MOBILITY_DEBUG_TAB
+//#define APPLICATION_DEBUG
+//#define BEARER_DEBUG
+//#define RLC_DEBUG
+//#define MAC_QUEUE_DEBUG
+//#define FLOW_MANAGER_DEBUG
+//#define FRAME_MANAGER_DEBUG
+//#define ENODEB_DEBUG
+//#define UE_DEBUG
+//#define PHY_DEBUG
+//#define SINR_DEBUG
+//#define BLER_DEBUG
+//#define MOBILITY_DEBUG
+//#define MOBILITY_DEBUG_TAB
 //#define HANDOVER_DEBUG
-// #define TRANSMISSION_DEBUG
-// #define CHANNEL_REALIZATION_DEBUG
-// #define TEST_DEVICE_ON_CHANNEL
-// #define TEST_START_APPLICATION
-// #define TEST_ENQUEUE_PACKETS
-// #define TEST_PROPAGATION_LOSS_MODEL
-// #define INTERFERENCE_DEBUG
-// #define TEST_CQI_FEEDBACKS
+//#define TRANSMISSION_DEBUG
+//#define CHANNEL_REALIZATION_DEBUG
+//#define TEST_DEVICE_ON_CHANNEL
+//#define TEST_START_APPLICATION
+//#define TEST_ENQUEUE_PACKETS
+//#define TEST_PROPAGATION_LOSS_MODEL
+//#define INTERFERENCE_DEBUG
+//#define TEST_CQI_FEEDBACKS
 //#define SCHEDULER_DEBUG
-// #define AMC_MAPPING 
-// #define PLOT_USER_POSITION
-// #define TEST_UL_SINR
-// #define TEST_DL_SINR
-// //#define NEAT_PRINT
-
+//#define AMC_MAPPING
+//#define PLOT_USER_POSITION
+//#define TEST_UL_SINR
+//#define TEST_DL_SINR
 
 
 #endif /* PARAMETERS_H_ */

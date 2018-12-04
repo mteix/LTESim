@@ -37,7 +37,6 @@
 #include "../protocolStack/rlc/am-rlc-entity.h"
 #include "../protocolStack/rlc/amd-record.h"
 #include "../load-parameters.h"
-//#include <cmath>
 
 RadioBearer::RadioBearer()
 {
@@ -51,13 +50,7 @@ RadioBearer::RadioBearer()
   rlc->SetRadioBearer (this);
   SetRlcEntity(rlc);
 
-  m_averageTransmissionRate = 1000000; //start value = 1kbps
-  
-  P0 = 1.0;
-  Q = pow(10,-6);
-  R = pow(.1,2);
-
-
+  m_averageTransmissionRate = 100000; //start value = 1kbps
   ResetTransmittedBytes ();
 }
 
@@ -114,8 +107,9 @@ RadioBearer::UpdateAverageTransmissionRate ()
    * R'(t+1) = (0.8 * R'(t)) + (0.2 * r(t))
    */
 
-double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
-/*  double beta = 0.2;
+  double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
+
+  double beta = 0.2;
 
   m_averageTransmissionRate =
       ((1 - beta) * m_averageTransmissionRate) + (beta * rate);
@@ -124,55 +118,17 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
     {
 	  m_averageTransmissionRate = 1;
     }
-*/
 
-
-
-  // 28-Nov-2018 by MJT 
-  //#####################################
-  //########## KALMAN FILTER ############
-  //#####################################
-
-
-  // 1. rate is the observation (z)
-  // 2. estimates for initial P0 and m_averageTransmissionRate (xhat) must 
-  // be provided
-
-
-  //Kalman estimates
-
-  xhatminus = m_averageTransmissionRate;
-  Pminus = P0 + Q;
-
-  //Kalman updates
-  K = Pminus/(Pminus + R);
-  m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
-  P0 = (1-K)*Pminus;
-
-
-  //#####################################
-  //########## KF END        ############
-  //#####################################
-
-  
-
-
-/*std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate 
-          << "\n Kalman parameters: P0 " << P0 << ", P1 " << P1 << ", K " << 
-          K << "xhatminus " << xhatminus  << " rate " << rate << std::endl;*/
-
-// std::cout << "Kalman: " << m_averageTransmissionRate << " , Rate: " << rate 
-//           << " , TxBytes: "<< GetTransmittedBytes () << std::endl;
-
+/*
 #ifdef SCHEDULER_DEBUG
-  std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer " << GetApplication ()->GetApplicationID () <<
+  std::cout << "UPDATE AVG RATE, bearer " << GetApplication ()->GetApplicationID () <<
 		  "\n\t tx byte " << GetTransmittedBytes () <<
 		  "\n\t interval " << Simulator::Init()->Now() - GetLastUpdate() <<
 		  "\n\t old rate " << m_averageTransmissionRate <<
           "\n\t new rate " << rate <<
-		  "\n\t new estimated rate ******** SCH_DEB" << m_averageTransmissionRate << std::endl;
+		  "\n\t new estimated rate " << m_averageTransmissionRate << std::endl;
 #endif
-
+*/
 
   ResetTransmittedBytes();
 }

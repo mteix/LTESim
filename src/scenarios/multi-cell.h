@@ -59,12 +59,12 @@ static void MultiCell (int nbCell, double radius,
                        int seed)
 {
 
-  // define simulation times (Originally 100 / 100. Cluster 3 and BW 10)
-  double duration = 10;
-  double flow_duration = 10;
+  // define simulation times
+  double duration = 100;
+  double flow_duration = 100;
 
   int cluster = 3;
-  double bandwidth = 1.4;
+  double bandwidth = 10;
 
   // CREATE COMPONENT MANAGER
   Simulator *simulator = Simulator::Init();

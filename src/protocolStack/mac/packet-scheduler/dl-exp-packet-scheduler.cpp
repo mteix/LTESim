@@ -20,8 +20,6 @@
  */
 
 
-#define SCHEDULER_DEBUG 
-
 #include "dl-exp-packet-scheduler.h"
 #include "../mac-entity.h"
 #include "../../packet/Packet.h"

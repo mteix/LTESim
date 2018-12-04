@@ -36,7 +36,7 @@ static void Simple ()
   // CREATE COMPONENT MANAGERS
   Simulator *simulator = Simulator::Init();
   FrameManager *frameManager = FrameManager::Init();
-  NetworkManager* networkManager = NetworkManager::Init();  //é chamada pela classe FrameManager
+  NetworkManager* networkManager = NetworkManager::Init();
   FlowsManager* flowsManager = FlowsManager::Init ();
 
 
@@ -91,7 +91,7 @@ static void Simple ()
 						  startTime, stopTime);
 
 
-  simulator->SetStop(.2);
+  simulator->SetStop(0.13);
   simulator->Run ();
 
 }

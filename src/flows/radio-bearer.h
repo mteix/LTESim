@@ -73,18 +73,6 @@ private:
 	double m_averageTransmissionRate;
 	int m_transmittedBytes;
 	double m_lastUpdate;
-
-	// Kalman parameters
-
-	
-  	double P0;
-  	double Pminus;
-  	double Q;
-  	double R;
-  	double K;
-  	double xhatminus;
-  
-
 };
 
 #endif /* RADIOBEARER_H_ */
