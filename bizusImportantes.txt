@@ -1,0 +1,11 @@
+
+### grep with many options
+
+time ./LTE-Sim SingleCell 0.5 10 0 1 0 0 3 1 3 0.04 120 100 
+| grep "time\|phy\|PHY\|--> flow\|nb of RBs\|effectiveSinr\|TX\|RX" > lixoso.txt
+
+#### Awk filtering
+grep sinr mob_sinrplot_randdir | awk '{if ((NR+6)%6==4) print NR,$2}' > sinr4All.dat
+
+### Awk copying last records from a file 
+grep sinr mob_sinrplot_randdir | awk '{if ((NR+6)%6==4) {for (i=3;i<=NF;i++) printf "%s ", $i;print ""}}' > sinr4All.dat

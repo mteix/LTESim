@@ -37,7 +37,6 @@
 #include "../protocolStack/rlc/am-rlc-entity.h"
 #include "../protocolStack/rlc/amd-record.h"
 #include "../load-parameters.h"
-//#include <cmath>
 
 RadioBearer::RadioBearer()
 {
@@ -51,20 +50,7 @@ RadioBearer::RadioBearer()
   rlc->SetRadioBearer (this);
   SetRlcEntity(rlc);
 
-  // Kalman Filter initial pararameters
-  m_averageTransmissionRate = 1000000; //start value = 1kbps
-  
-  P0 = 1.0;
-  Q = pow(10,-6);
-  R = pow(.1,2);
-
-
-  // Sub-Filter definitions
-
-  sigmaQ2 = pow(10,-32);
-  P1Q = pow(10,6);
-
-
+  m_averageTransmissionRate = 100000; //start value = 1kbps
   ResetTransmittedBytes ();
 }
 
@@ -121,8 +107,9 @@ RadioBearer::UpdateAverageTransmissionRate ()
    * R'(t+1) = (0.8 * R'(t)) + (0.2 * r(t))
    */
 
-double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
-/*  double beta = 0.2;
+  double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
+
+  double beta = 0.2;
 
   m_averageTransmissionRate =
       ((1 - beta) * m_averageTransmissionRate) + (beta * rate);
@@ -131,84 +118,17 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
     {
 	  m_averageTransmissionRate = 1;
     }
-*/
-
-
-
-  // 28-Nov-2018 by MJT 
-  //#####################################
-  //########## KALMAN FILTER ############
-  //#####################################
-
-
-  // 1. rate is the observation (z)
-  // 2. estimates for initial P0 and m_averageTransmissionRate (xhat) must 
-  // be provided
-
-
-  //Kalman estimates
-
-  xhatminus = m_averageTransmissionRate;
-  Pminus = P0 + Q;
-
-  //Kalman updates
-  K = Pminus/(Pminus + R);
-  m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
-  P0 = (1-K)*Pminus;
 
 /*
-
-// 02-Dec-2018 by MJT
-//##########################
-//  KALMAN SUB-FILTER
-//##########################
-
-q1 = m_averageTransmissionRate;
-eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
-// declared in beginning of class sigmaQ2 = pow(10,-32); // 2x 16 digit precision
-zk = (rate - xhatminus)*(rate - xhatminus)+R-P0;
-kq = P1Q/(P1Q+eta2);
-q0 = (q1+kq)*(zk-q1);
-P0Q = P1Q*(1-kq);
-q1 = q0;
-P1Q = P0Q + sigmaQ2;
-
-if(q1>0)
-  Q = q1;
-else 
-  Q = 0;
-
-*/
-
-//##########################
-// END KALMAN SUB-FILTER
-//##########################
-
-
-//#####################################
-//########## KF END        ############
-//#####################################
-
-  
-
-/*
-std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate 
-          << "\n Kalman parameters: P0 " << P0 << ", P1 " << P1 << ", K " << 
-          K << "xhatminus " << xhatminus  << " rate " << rate << std::endl;
-*/
-
-/*std::cout << "\t SFK: " << m_averageTransmissionRate << "\t Rate: " << rate 
-          << "\t TxBytes: "<< GetTransmittedBytes () << std::endl;
-*/
 #ifdef SCHEDULER_DEBUG
-  std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
+  std::cout << "UPDATE AVG RATE, bearer " << GetApplication ()->GetApplicationID () <<
 		  "\n\t tx byte " << GetTransmittedBytes () <<
 		  "\n\t interval " << Simulator::Init()->Now() - GetLastUpdate() <<
 		  "\n\t old rate " << m_averageTransmissionRate <<
           "\n\t new rate " << rate <<
-		  "\n\t new estimated rate ******** SCH_DEB" << m_averageTransmissionRate << std::endl;
+		  "\n\t new estimated rate " << m_averageTransmissionRate << std::endl;
 #endif
-
+*/
 
   ResetTransmittedBytes();
 }

@@ -2,7 +2,7 @@ set -x
 set -e
 
 _COUNT=1
-_NB_SEEDS=40
+_NB_SEEDS=10
 
 until [ $_COUNT -gt $_NB_SEEDS ]; do
 for sched in  1 4 5 6 		#scheduling algorithm

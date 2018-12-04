@@ -73,28 +73,6 @@ private:
 	double m_averageTransmissionRate;
 	int m_transmittedBytes;
 	double m_lastUpdate;
-
-	// Kalman filter variables
-
-	
-  	double P0;
-  	double Pminus;
-  	double Q;
-  	double R;
-  	double K;
-  	double xhatminus;
-  
-  // Subfilter variables
-
-  	double q0;
-  	double q1;
-  	double P0Q;
-  	double P1Q;
-  	double zk;
-  	double eta2;
-  	double sigmaQ2;
-  	double kq;
-
 };
 
 #endif /* RADIOBEARER_H_ */
