@@ -61,11 +61,11 @@ static void SingleCellWithoutInterference (double radius,
 {
 
   // define simulation times
-  double duration = 15;
-  double flow_duration = .1;
+  double duration = 25;
+  double flow_duration = 20;
 
 
-  double bandwidth = 1.4;
+  double bandwidth = 10;
 
   // CREATE COMPONENT MANAGER
   Simulator *simulator = Simulator::Init();
@@ -136,10 +136,10 @@ static void SingleCellWithoutInterference (double radius,
 
   //Define Application Container
   int nbCell=1;
-  VoIP VoIPApplication[1000/*nbVoIP*nbCell*nbUE*/];
-  TraceBased VideoApplication[1000/*nbVideo*nbCell*nbUE*/];
-  InfiniteBuffer BEApplication[1000/*nbBE*nbCell*nbUE*/];
-  CBR CBRApplication[1000/*nbCBR*nbCell*nbUE*/];
+  VoIP VoIPApplication[nbVoIP*nbCell*nbUE];
+  TraceBased VideoApplication[nbVideo*nbCell*nbUE];
+  InfiniteBuffer BEApplication[nbBE*nbCell*nbUE];
+  CBR CBRApplication[nbCBR*nbCell*nbUE];
   int voipApplication = 0;
   int videoApplication = 0;
   int cbrApplication = 0;

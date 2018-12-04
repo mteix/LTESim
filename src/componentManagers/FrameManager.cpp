@@ -26,10 +26,7 @@
 #include "../device/ENodeB.h"
 #include "../device/HeNodeB.h"
 
-
-
 FrameManager* FrameManager::ptr=NULL;
-
 
 FrameManager::FrameManager() {
   m_nbFrames = 0;
@@ -161,13 +158,8 @@ void
 FrameManager::StartSubframe (void)
 {
 #ifdef FRAME_MANAGER_DEBUG
- 
-  extern double g_time;
   std::cout << " --------- Start SubFrame, time =  "
       << Simulator::Init()->Now() << " --------- " << std::endl;
- 
-    g_time = Simulator::Init()->Now();
- 
 #endif
 
   UpdateTTIcounter ();
@@ -239,10 +231,8 @@ FrameManager::ResourceAllocation(void)
 	  record = *iter;
 
 #ifdef FRAME_MANAGER_DEBUG
-	  
-    std::cout << " FRAME_MANAGER_DEBUG: RBs allocation for eNB " <<
+	  std::cout << " FRAME_MANAGER_DEBUG: RBs allocation for eNB " <<
 		  record->GetIDNetworkNode() << std::endl;
-    
 #endif
 
 
@@ -257,7 +247,6 @@ FrameManager::ResourceAllocation(void)
 		  if (GetSubFrameType (GetNbSubframes ()) == 0)
 			{
 #ifdef FRAME_MANAGER_DEBUG
-
 			  std::cout << " FRAME_MANAGER_DEBUG: SubFrameType = "
 				  "	SUBFRAME_FOR_DOWNLINK " << std::endl;
 #endif
@@ -331,5 +320,4 @@ FrameManager::ResourceAllocation(void)
   			}
   		}
   	}
-
 }

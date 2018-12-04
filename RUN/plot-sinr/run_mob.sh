@@ -48,9 +48,9 @@ mkdir output
 file="mob_sinrplot"
 echo "run ${file}"
 
-nbcells=5
-radius=.8
-nbUE=2
+nbcells=3
+radius=1
+nbUE=1
 sched_type=1
 frame_struct=1
 speed=30

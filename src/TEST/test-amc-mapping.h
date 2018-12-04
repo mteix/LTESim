@@ -78,6 +78,7 @@ static void TestAmcMapping (int nbCells, double radius, int speed, double bandwi
   NetworkManager* nm = NetworkManager::Init ();
   FrameManager* fm = FrameManager::Init ();
 
+
   std::vector <BandwidthManager*> spectrums = RunFrequencyReuseTechniques (nbCells, cluster, bandwidth);
 
 
@@ -89,7 +90,7 @@ static void TestAmcMapping (int nbCells, double radius, int speed, double bandwi
 			  GetCartesianCoordinatesForCell(i, radius * 1000.);
 
 	  Cell *c = new Cell (i, radius, 0.035, center.GetCoordinateX (), center.GetCoordinateY ());
-      cells->push_back (c);
+	  cells->push_back (c);
 	  nm->GetCellContainer ()->push_back (c);
 
 	  std::cout << "Created Cell, id " << c->GetIdCell ()
@@ -97,7 +98,7 @@ static void TestAmcMapping (int nbCells, double radius, int speed, double bandwi
 			  << " " << c->GetCellCenterPosition ()->GetCoordinateY () << std::endl;
     }
 
-  
+
   //Create a set of 7 couple of channels
   std::vector <LteChannel*> *dlChannels = new std::vector <LteChannel*>;
   std::vector <LteChannel*> *ulChannels = new std::vector <LteChannel*>;
@@ -111,6 +112,7 @@ static void TestAmcMapping (int nbCells, double radius, int speed, double bandwi
 	  ulCh->SetChannelId (i);
 	  ulChannels->push_back (ulCh);
     }
+
 
   //create a set of 7 cell with radius equal to 1 km
   std::vector <ENodeB*> *eNBs = new std::vector <ENodeB*>;
@@ -132,6 +134,7 @@ static void TestAmcMapping (int nbCells, double radius, int speed, double bandwi
 			  << enb->GetPhy ()->GetUlChannel ()->GetChannelId ()  << std::endl;
 
 	  spectrums.at (i)->Print ();
+
 
 	  ulChannels->at (i)->AddDevice((NetworkNode*) enb);
 

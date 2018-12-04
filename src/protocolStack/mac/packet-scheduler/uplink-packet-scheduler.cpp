@@ -34,8 +34,6 @@
 #include "../../../flows/MacQueue.h"
 #include "../../../utility/eesm-effective-sinr.h"
 
-//#define SCHEDULER_DEBUG 
-
 UplinkPacketScheduler::UplinkPacketScheduler()
 {}
 

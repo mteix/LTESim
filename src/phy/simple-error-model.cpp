@@ -24,8 +24,6 @@
 #include "BLERTrace/BLERvsSINR_15CQI_TU.h"
 #include "../utility/RandomVariable.h"
 
-
-
 SimpleErrorModel::SimpleErrorModel()
 {}
 
@@ -52,9 +50,6 @@ SimpleErrorModel::CheckForPhysicalError (std::vector<int> channels, std::vector<
   bool error = false;
 
 #ifdef  BLER_DEBUG
-  
-  // extern double g_time;
-  
   std::cout << "\n--> CheckForPhysicalError \n\t\t Channels: ";
   for (int i = 0; i < channels.size (); i++)
 	{
@@ -70,9 +65,7 @@ SimpleErrorModel::CheckForPhysicalError (std::vector<int> channels, std::vector<
 	{
 	  std::cout << sinr.at (i) << " ";
 	}
-  //std::cout << "****** MY TEST ****** \n"<< std::endl;
-  //std::cout << "****** MY TEST ****** \t " << g_time << std::endl;
-
+  std::cout << "\n"<< std::endl;
 #endif
 
 

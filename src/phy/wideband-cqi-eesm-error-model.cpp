@@ -25,7 +25,6 @@
 #include "../utility/RandomVariable.h"
 #include "../utility/eesm-effective-sinr.h"
 #include "../load-parameters.h"
-#include <fstream>
 
 WidebandCqiEesmErrorModel::WidebandCqiEesmErrorModel()
 {}
@@ -42,113 +41,64 @@ WidebandCqiEesmErrorModel::CheckForPhysicalError (std::vector<int> channels, std
   //compute the sinr vector associated to assigned sub channels
   std::vector<double> new_sinr;
   for (int i = 0; i < channels.size (); i++)
-  {
-   new_sinr.push_back (sinr.at (channels.at (i)));
- }
-
-
-// ##################################
-// THIS IS THE ORIGINAL
-// ##################################
-// #ifdef  BLER_DEBUG
-//   extern double g_time;
-//   std::cout << "\n--> CheckForPhysicalError \n\t\t Channels: ";
-//   for (int i = 0; i < channels.size (); i++)
-// 	{
-// 	  std::cout << channels.at (i) << " ";
-// 	}
-//   std::cout << "\n\t\t MCS: ";
-//     for (int i = 0; i < mcs.size (); i++)
-//   	{
-//   	  std::cout << mcs.at (i) << " ";
-//   	}
-//     std::cout << "\n\t\t SINR: ";
-//   for (int i = 0; i < new_sinr.size (); i++)
-// 	{
-// 	  std::cout << new_sinr.at (i) << " ";
-// 	}
-//   std::cout << "\n"<< std::endl;
-
-// #endif
-
-
-// ##################################
-//              END
-// ##################################
-
+	{
+	  new_sinr.push_back (sinr.at (channels.at (i)));
+	}
 
 #ifdef  BLER_DEBUG
- extern double g_time;
- double SINR[6]={0,0,0,0,0,0},RB[6]={0,0,0,0,0,0};
- std::ofstream ofs;
- ofs.open ("RBsSinr.dat", std::ofstream::out | std::ofstream::app);
-
- 
- //std::cout << "\n--> CheckForPhysicalError \n\t\t Channels: ";
- for (int i = 0; i < channels.size (); i++)
- {
-  //std::cout << channels.at (i) << " ";
-  RB[i] = channels.at (i);
-}
-std::cout << "\n\t\t MCS: ";
-for (int i = 0; i < mcs.size (); i++)
-{
-  //std::cout << mcs.at (i) << " ";
-  //SINR[i] = mcs.at (i);
-}
-std::cout << "\n\t\t SINR: ";
-for (int i = 0; i < new_sinr.size (); i++)
-{
-  //std::cout << new_sinr.at (i) << " ";
-  SINR[i] = new_sinr.at (i);
-}
-//std::cout << "\n"<< std::endl;
-int i=0;
-while(SINR[i] != 0 && i<6) { 
-  ofs << g_time << " \t" << RB[i] << " \t" << SINR[i] << std::endl;
-  i++;  
-}
-
-ofs.close();
-
+  std::cout << "\n--> CheckForPhysicalError \n\t\t Channels: ";
+  for (int i = 0; i < channels.size (); i++)
+	{
+	  std::cout << channels.at (i) << " ";
+	}
+  std::cout << "\n\t\t MCS: ";
+    for (int i = 0; i < mcs.size (); i++)
+  	{
+  	  std::cout << mcs.at (i) << " ";
+  	}
+    std::cout << "\n\t\t SINR: ";
+  for (int i = 0; i < new_sinr.size (); i++)
+	{
+	  std::cout << new_sinr.at (i) << " ";
+	}
+  std::cout << "\n"<< std::endl;
 #endif
 
 
+  double effective_sinr = GetEesmEffectiveSinr (new_sinr);
+  double randomNumber = (rand () %100 ) / 100.;
+  int mcs_ = mcs.at (0);
+  double bler;
 
-double effective_sinr = GetEesmEffectiveSinr (new_sinr);
-double randomNumber = (rand () %100 ) / 100.;
-int mcs_ = mcs.at (0);
-double bler;
-
-if (_channel_AWGN_)
-{
- bler = GetBLER_AWGN (effective_sinr, mcs_);
-}
-else if (_channel_TU_)
-{
- bler = GetBLER_TU (effective_sinr, mcs_);
-}
-else
-{
- bler = GetBLER_AWGN (effective_sinr, mcs_);
-}
+  if (_channel_AWGN_)
+    {
+	  bler = GetBLER_AWGN (effective_sinr, mcs_);
+    }
+  else if (_channel_TU_)
+    {
+	  bler = GetBLER_TU (effective_sinr, mcs_);
+    }
+  else
+    {
+	  bler = GetBLER_AWGN (effective_sinr, mcs_);
+    }
 
 #ifdef BLER_DEBUG
-std::cout <<"CheckForPhysicalError: , effective SINR:" << effective_sinr
-<< ", selected CQI: " << mcs_
-<< ", random " << randomNumber
-<< ", BLER: " << bler << std::endl;
+	  std::cout <<"CheckForPhysicalError: , effective SINR:" << effective_sinr
+			  << ", selected CQI: " << mcs_
+			  << ", random " << randomNumber
+			  << ", BLER: " << bler << std::endl;
 #endif
 
-if (randomNumber < bler)
-{
- error = true;
- if (_TEST_BLER_) std::cout << "BLER PDF " << effective_sinr << " 1" << std::endl;
-}
-else
-{
- if (_TEST_BLER_) std::cout << "BLER PDF " << effective_sinr << " 0" << std::endl;
-}
+  if (randomNumber < bler)
+	{
+	  error = true;
+	  if (_TEST_BLER_) std::cout << "BLER PDF " << effective_sinr << " 1" << std::endl;
+	}
+  else
+	{
+	  if (_TEST_BLER_) std::cout << "BLER PDF " << effective_sinr << " 0" << std::endl;
+	}
 
-return error;
+  return error;
 }
