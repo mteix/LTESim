@@ -37,13 +37,13 @@
 
 LogRuleDownlinkPacketScheduler::LogRuleDownlinkPacketScheduler()
 {
-  SetMacEntity (0);
-  CreateFlowsToSchedule ();
+	SetMacEntity (0);
+	CreateFlowsToSchedule ();
 }
 
 LogRuleDownlinkPacketScheduler::~LogRuleDownlinkPacketScheduler()
 {
-  Destroy ();
+	Destroy ();
 }
 
 void
@@ -51,54 +51,57 @@ LogRuleDownlinkPacketScheduler::DoSchedule ()
 {
 #ifdef SCHEDULER_DEBUG
 	std::cout << "Start LOG RULE packet scheduler for node "
-			<< GetMacEntity ()->GetDevice ()->GetIDNetworkNode()<< std::endl;
+	<< GetMacEntity ()->GetDevice ()->GetIDNetworkNode()<< std::endl;
 #endif
 
-  UpdateAverageTransmissionRate ();
+	UpdateAverageTransmissionRate ();
 
-  CheckForDLDropPackets ();
+	CheckForDLDropPackets ();
 
-  SelectFlowsToSchedule ();
+	SelectFlowsToSchedule ();
 
-  if (GetFlowsToSchedule ()->size() == 0)
+	if (GetFlowsToSchedule ()->size() == 0)
 	{}
-  else
-	{
-	  RBsAllocation ();
-	}
+else
+{
+	RBsAllocation ();
+}
 
-  StopSchedule ();
+StopSchedule ();
 }
 
 
 double
 LogRuleDownlinkPacketScheduler::ComputeSchedulingMetric (RadioBearer *bearer, double spectralEfficiency, int subChannel)
 {
-  double metric;
+	double metric;
 
-  if ((bearer->GetApplication ()->GetApplicationType () == Application::APPLICATION_TYPE_INFINITE_BUFFER)
-	  ||
-	  (bearer->GetApplication ()->GetApplicationType () == Application::APPLICATION_TYPE_CBR))
+	if ((bearer->GetApplication ()->GetApplicationType () == Application::APPLICATION_TYPE_INFINITE_BUFFER)
+		||
+		(bearer->GetApplication ()->GetApplicationType () == Application::APPLICATION_TYPE_CBR))
 	{
-	  metric = (spectralEfficiency * 180000.)
-				/
-				bearer->GetAverageTransmissionRate();
+		metric = (spectralEfficiency * 180000.)
+		/
+		bearer->GetAverageTransmissionRate();
 	}
-  else
+	else
 	{
-	   QoSParameters *qos = bearer->GetQoSParameters ();
-	   double HOL = bearer->GetHeadOfLinePacketDelay ();
-	   double targetDelay = qos->GetMaxDelay ();
+		QoSParameters *qos = bearer->GetQoSParameters ();
+		double HOL = bearer->GetHeadOfLinePacketDelay ();
+		double targetDelay = qos->GetMaxDelay ();
 
 	   //COMPUTE METRIC USING EXP RULE:
-	   double logTerm = log (1.1 + ( (5 * HOL) / targetDelay ));
+		double logTerm = log (1.1 + ( (5 * HOL) / targetDelay ));
+
+	//	MY CHANGES
 	   double weight = (spectralEfficiency * 180000.)
 		  		       /
 	    	           bearer->GetAverageTransmissionRate();
 
-  	   metric = logTerm * weight;
+//		double weight = spectralEfficiency;
+		metric = logTerm * weight;
 	}
 
-  return metric;
+	return metric;
 }
 
