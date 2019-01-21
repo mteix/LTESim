@@ -135,11 +135,10 @@ ExpRuleDownlinkPacketScheduler::ComputeSchedulingMetric (RadioBearer *bearer, do
 	  double numerator = (6/targetDelay) * HOL;
 	  double denominator = (1 + sqrt (m_avgHOLDelayes));
 
-	 // MY CHANGES 
 	  double weight = (spectralEfficiency * 180000.)
 				      /
 	    	          bearer->GetAverageTransmissionRate();
-	  //double weight = spectralEfficiency;
+	  
 
 	  metric = (exp (numerator / denominator)) * weight;
 

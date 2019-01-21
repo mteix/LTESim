@@ -93,12 +93,9 @@ LogRuleDownlinkPacketScheduler::ComputeSchedulingMetric (RadioBearer *bearer, do
 	   //COMPUTE METRIC USING EXP RULE:
 		double logTerm = log (1.1 + ( (5 * HOL) / targetDelay ));
 
-	//	MY CHANGES
 	   double weight = (spectralEfficiency * 180000.)
 		  		       /
 	    	           bearer->GetAverageTransmissionRate();
-
-//		double weight = spectralEfficiency;
 		metric = logTerm * weight;
 	}
 
