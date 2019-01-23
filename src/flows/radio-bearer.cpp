@@ -63,6 +63,7 @@ RadioBearer::RadioBearer()
 
   sigmaQ2 = pow(10,-32);
   P1Q = pow(10,6);
+  q1 = 1.0; // changed on 21-Jan-2019 
 
 
   ResetTransmittedBytes ();
@@ -156,17 +157,22 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
   m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
   P0 = (1-K)*Pminus;
 
-/*
 
-// 02-Dec-2018 by MJT
+/*
+// 21-Jan-2019 by MJT
 //##########################
 //  KALMAN SUB-FILTER
 //##########################
 
-q1 = m_averageTransmissionRate;
+//q1 = m_averageTransmissionRate; //?????? is this right ?????
+//changing: will declare q1=1 just in the beginning of the simulation. q =1 
+
 eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
 // declared in beginning of class sigmaQ2 = pow(10,-32); // 2x 16 digit precision
 zk = (rate - xhatminus)*(rate - xhatminus)+R-P0;
+
+//calculus of pseudo observation
+
 kq = P1Q/(P1Q+eta2);
 q0 = (q1+kq)*(zk-q1);
 P0Q = P1Q*(1-kq);
@@ -178,13 +184,13 @@ if(q1>0)
 else 
   Q = 0;
 
-*/
+
 
 //##########################
 // END KALMAN SUB-FILTER
 //##########################
 
-
+*/
 //#####################################
 //########## KF END        ############
 //#####################################

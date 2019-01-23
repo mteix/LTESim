@@ -60,8 +60,8 @@ static void SingleCellWithInterference (int nbCells, double radius,
 {
 
   // define simulation times
-  double duration = 10;
-  double flow_duration = 7;
+  double duration = 40;
+  double flow_duration = 35;
 
 
   int cluster = 4;
