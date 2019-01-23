@@ -158,7 +158,7 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
   P0 = (1-K)*Pminus;
 
 
-/*
+
 // 21-Jan-2019 by MJT
 //##########################
 //  KALMAN SUB-FILTER
@@ -190,7 +190,7 @@ else
 // END KALMAN SUB-FILTER
 //##########################
 
-*/
+
 //#####################################
 //########## KF END        ############
 //#####################################
