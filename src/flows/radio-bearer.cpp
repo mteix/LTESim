@@ -62,7 +62,7 @@ RadioBearer::RadioBearer()
   // Sub-Filter definitions
 
   sigmaQ2 = pow(10,-32);
-  P1Q = pow(10,6);
+  P1Q = P0;  // changed on 23-Jan-2019
   q1 = 1.0; // changed on 21-Jan-2019 
 
 
