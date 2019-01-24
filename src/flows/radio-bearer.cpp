@@ -149,17 +149,9 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
 
   //Kalman estimates
 
-  xhatminus = m_averageTransmissionRate;
-  Pminus = P0 + Q;
+  xhatminus = m_averageTransmissionRate; // #### KF ORIGINAL  
 
-  //Kalman updates
-  K = Pminus/(Pminus + R);
-  m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
-  P0 = (1-K)*Pminus;
-
-
-
-// 21-Jan-2019 by MJT
+// 24-Jan-2019 by MJT
 //##########################
 //  KALMAN SUB-FILTER
 //##########################
@@ -168,6 +160,7 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
 //changing: will declare q1=1 just in the beginning of the simulation. q =1 
 
 eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
+
 // declared in beginning of class sigmaQ2 = pow(10,-32); // 2x 16 digit precision
 zk = (rate - xhatminus)*(rate - xhatminus)+R-P0;
 
@@ -189,6 +182,19 @@ else
 //##########################
 // END KALMAN SUB-FILTER
 //##########################
+
+
+
+
+  Pminus = P0 + Q;  // #### input calculated Q in KF
+
+  //Kalman updates  ##### here we continue with  regular KF
+  K = Pminus/(Pminus + R);
+  m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
+  P0 = (1-K)*Pminus;
+
+
+
 
 
 //#####################################
