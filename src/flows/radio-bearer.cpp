@@ -69,13 +69,26 @@ RadioBearer::RadioBearer()
 
 
 
-  P0 =pow(10,-6);
+ /* P0 =pow(10,6);
   //P0 = 1;
-  Q = pow(10,-6);
+  Q = pow(10,6);
   R = pow(.1,2);
   q1 = 1.0;
   P1Q = pow(10,-6);
   sigmaQ2 = pow(10,-32);
+*/
+  m_averageTransmissionRate = 10000; //start value = 10kbps
+  
+  P0 =pow(10,6);
+  Q = pow(10,6);
+  R = 1.0;
+  q1 = 1.0;
+  P1Q = pow(10,6);
+  sigmaQ2 = pow(10,-32);
+
+
+
+
   ResetTransmittedBytes ();
 }
 
