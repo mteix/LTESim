@@ -37,7 +37,7 @@
 #include "../protocolStack/rlc/am-rlc-entity.h"
 #include "../protocolStack/rlc/amd-record.h"
 #include "../load-parameters.h"
-//#include <cmath>
+#include <cmath>
 
 RadioBearer::RadioBearer()
 {
@@ -52,7 +52,7 @@ RadioBearer::RadioBearer()
   SetRlcEntity(rlc);
 
   // Kalman Filter initial pararameters
-  m_averageTransmissionRate = 1000000; //start value = 1kbps
+/*  m_averageTransmissionRate = 1000000; //start value = 1kbps
   
   P0 = 1.0;
   Q = pow(10,-6);
@@ -65,7 +65,17 @@ RadioBearer::RadioBearer()
   P1Q = P0;  // changed on 23-Jan-2019
   q1 = 1.0; // changed on 21-Jan-2019 
 
+*/
 
+
+
+  P0 =pow(10,-6);
+  //P0 = 1;
+  Q = pow(10,-6);
+  R = pow(.1,2);
+  q1 = 1.0;
+  P1Q = pow(10,-6);
+  sigmaQ2 = pow(10,-32);
   ResetTransmittedBytes ();
 }
 
@@ -122,7 +132,7 @@ RadioBearer::UpdateAverageTransmissionRate ()
    * R'(t+1) = (0.8 * R'(t)) + (0.2 * r(t))
    */
 
-double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
+  double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
 /*  double beta = 0.2;
 
   m_averageTransmissionRate =
@@ -158,7 +168,7 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
 
 //q1 = m_averageTransmissionRate; //?????? is this right ?????
 //changing: will declare q1=1 just in the beginning of the simulation. q =1 
-
+/*
 eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
 
 // declared in beginning of class sigmaQ2 = pow(10,-32); // 2x 16 digit precision
@@ -199,9 +209,41 @@ else
 
 //#####################################
 //########## KF END        ############
-//#####################################
+//#####################################*/
 
-  
+//new 
+
+  xhatminus = m_averageTransmissionRate;
+  Pminus = P0 + Q;  // #### input calculated Q in KF
+
+
+  eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
+
+// declared in beginning of class sigmaQ2 = pow(10,-32); // 2x 16 digit precision
+  zk = (rate - xhatminus)*(rate - xhatminus)+R-P0;
+
+//calculus of pseudo observation
+
+  kq = P1Q/(P1Q+eta2);
+  q0 = q1 + kq*(zk-q1);
+  P0Q = P1Q*(1-kq);
+  q1 = q0;
+  P1Q = P0Q + sigmaQ2;
+
+  if(q1>0)
+    Q = q1;
+  else 
+    Q = 0;
+
+  //Kalman updates  ##### here we continue with  regular KF
+  K = Pminus/(Pminus + R);
+  m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
+  P0 = (1-K)*Pminus;
+
+
+
+//end new
+
 
 /*
 std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate 
@@ -214,11 +256,11 @@ std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate
 */
 #ifdef SCHEDULER_DEBUG
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
-		  "\n\t tx byte " << GetTransmittedBytes () <<
-		  "\n\t interval " << Simulator::Init()->Now() - GetLastUpdate() <<
-		  "\n\t old rate " << m_averageTransmissionRate <<
-          "\n\t new rate " << rate <<
-		  "\n\t new estimated rate ******** SCH_DEB" << m_averageTransmissionRate << std::endl;
+  "\n\t tx byte " << GetTransmittedBytes () <<
+  "\n\t interval " << Simulator::Init()->Now() - GetLastUpdate() <<
+  "\n\t old rate " << m_averageTransmissionRate <<
+  "\n\t new rate " << rate <<
+  "\n\t new estimated rate ******** SCH_DEB" << m_averageTransmissionRate << std::endl;
 #endif
 
 
@@ -252,11 +294,11 @@ RadioBearer::CreatePacket (int bytes)
   p->SetTimeStamp(Simulator::Init()->Now ());
 
   UDPHeader *udp = new UDPHeader (GetClassifierParameters ()->GetSourcePort(),
-		                          GetClassifierParameters ()->GetDestinationPort ());
+    GetClassifierParameters ()->GetDestinationPort ());
   p->AddUDPHeader(udp);
 
   IPHeader *ip = new IPHeader (GetClassifierParameters ()->GetSourceID (),
-                               GetClassifierParameters ()->GetDestinationID());
+   GetClassifierParameters ()->GetDestinationID());
   p->AddIPHeader(ip);
 
   PDCPHeader *pdcp = new PDCPHeader ();
@@ -270,56 +312,56 @@ RadioBearer::CreatePacket (int bytes)
   p->SetPacketTags(tags);
 
   if (_APP_TRACING_)
-    {
+  {
 	  /*
 	   * Trace format:
 	   *
 	   * TX   APPLICATION_TYPE   BEARER_ID  SIZE   SRC_ID   DST_ID   TIME
 	   */
-	  UserEquipment* ue = (UserEquipment*) GetApplication ()->GetDestination ();
-	   std::cout << "TX";
-	   switch (p->GetPacketTags ()->GetApplicationType ())
-	     {
-	       case Application::APPLICATION_TYPE_VOIP:
-	         {
-	     	  std::cout << " VOIP";
-	     	  break;
-	         }
-	       case Application::APPLICATION_TYPE_TRACE_BASED:
-	         {
-	           std::cout << " VIDEO";
-	     	  break;
-	         }
-	       case Application::APPLICATION_TYPE_CBR:
-	         {
-	     	  std::cout << " CBR";
-	     	  break;
-	         }
-	       case Application::APPLICATION_TYPE_INFINITE_BUFFER:
-	         {
-	     	  std::cout << " INF_BUF";
-	     	  break;
-	         }
-	       default:
-	         {
-	     	  std::cout << " UNDEFINED";
-	     	  break;
-	         }
-	     }
+   UserEquipment* ue = (UserEquipment*) GetApplication ()->GetDestination ();
+   std::cout << "TX";
+   switch (p->GetPacketTags ()->GetApplicationType ())
+   {
+    case Application::APPLICATION_TYPE_VOIP:
+    {
+     std::cout << " VOIP";
+     break;
+   }
+   case Application::APPLICATION_TYPE_TRACE_BASED:
+   {
+    std::cout << " VIDEO";
+    break;
+  }
+  case Application::APPLICATION_TYPE_CBR:
+  {
+   std::cout << " CBR";
+   break;
+ }
+ case Application::APPLICATION_TYPE_INFINITE_BUFFER:
+ {
+   std::cout << " INF_BUF";
+   break;
+ }
+ default:
+ {
+   std::cout << " UNDEFINED";
+   break;
+ }
+}
 
-	   if (bytes > 1490) bytes = 1490;
-	   else bytes = bytes - 13;
+if (bytes > 1490) bytes = 1490;
+else bytes = bytes - 13;
 
-       std::cout << " ID " << p->GetID ()
-	 		    << " B " << GetRlcEntity ()->GetRlcEntityIndex ()
-	 			<< " SIZE " << bytes
-	 			<< " SRC " << GetSource ()->GetIDNetworkNode ()
-	 			<< " DST " << GetDestination ()->GetIDNetworkNode ()
-	 			<< " T " << Simulator::Init()->Now()
-	 			<< " " << ue->IsIndoor () << std::endl;
-    }
+std::cout << " ID " << p->GetID ()
+<< " B " << GetRlcEntity ()->GetRlcEntityIndex ()
+<< " SIZE " << bytes
+<< " SRC " << GetSource ()->GetIDNetworkNode ()
+<< " DST " << GetDestination ()->GetIDNetworkNode ()
+<< " T " << Simulator::Init()->Now()
+<< " " << ue->IsIndoor () << std::endl;
+}
 
-  return p;
+return p;
 }
 
 int
@@ -343,46 +385,46 @@ RadioBearer::GetHeadOfLinePacketDelay (void)
   double HOL = 0.;
   double now = Simulator::Init()->Now();
   if (GetRlcEntity ()->GetRlcModel () == RlcEntity::AM_RLC_MODE)
-    {
-	  AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
-	  if (amRlc->GetSentAMDs()->size() > 0)
-	    {
-		  HOL = now - amRlc->GetSentAMDs()->at (0)->m_packet->GetTimeStamp ();
-	    }
-	  else
-	    {
-          HOL = now - GetMacQueue ()->Peek ().GetTimeStamp ();
-	    }
-    }
+  {
+   AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
+   if (amRlc->GetSentAMDs()->size() > 0)
+   {
+    HOL = now - amRlc->GetSentAMDs()->at (0)->m_packet->GetTimeStamp ();
+  }
   else
-    {
-	  HOL = now - GetMacQueue ()->Peek().GetTimeStamp ();
-    }
+  {
+    HOL = now - GetMacQueue ()->Peek ().GetTimeStamp ();
+  }
+}
+else
+{
+ HOL = now - GetMacQueue ()->Peek().GetTimeStamp ();
+}
 
-  if (HOL < 0.00001) HOL = 0.00001;
+if (HOL < 0.00001) HOL = 0.00001;
 
-  return HOL;
+return HOL;
 }
 
 void
 RadioBearer::CheckForDropPackets ()
 {
   if (m_application->GetApplicationType ()  != Application::APPLICATION_TYPE_TRACE_BASED
-		  &&
-		  m_application->GetApplicationType ()  != Application::APPLICATION_TYPE_VOIP)
-    {
-	  return;
-    }
+    &&
+    m_application->GetApplicationType ()  != Application::APPLICATION_TYPE_VOIP)
+  {
+   return;
+ }
 
-  GetMacQueue()->CheckForDropPackets(
-		  GetQoSParameters()->GetMaxDelay(), m_application->GetApplicationID ());
+ GetMacQueue()->CheckForDropPackets(
+  GetQoSParameters()->GetMaxDelay(), m_application->GetApplicationID ());
 }
 
 void
 RadioBearer::Enqueue (Packet *packet)
 {
 #ifdef TEST_ENQUEUE_PACKETS
-      std::cout << "Enqueue packet on " << GetSource ()->GetIDNetworkNode () << std::endl;
+  std::cout << "Enqueue packet on " << GetSource ()->GetIDNetworkNode () << std::endl;
 #endif
 
   GetMacQueue ()->Enqueue(packet);
@@ -393,26 +435,26 @@ bool
 RadioBearer::HasPackets (void)
 {
   if (m_application->GetApplicationType ()  == Application::APPLICATION_TYPE_INFINITE_BUFFER)
-    {
-	  return true;
-    }
+  {
+   return true;
+ }
 
-  if (GetRlcEntity ()->GetRlcModel () == RlcEntity::AM_RLC_MODE)
-    {
-	  AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
-	  if (amRlc->GetSentAMDs()->size() > 0)
-	    {
-		  return true;
-	    }
-	  else
-	    {
-		  return !GetMacQueue ()->IsEmpty();
-	    }
-    }
+ if (GetRlcEntity ()->GetRlcModel () == RlcEntity::AM_RLC_MODE)
+ {
+   AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
+   if (amRlc->GetSentAMDs()->size() > 0)
+   {
+    return true;
+  }
   else
-    {
-	  return !GetMacQueue ()->IsEmpty();
-    }
+  {
+    return !GetMacQueue ()->IsEmpty();
+  }
+}
+else
+{
+ return !GetMacQueue ()->IsEmpty();
+}
 }
 
 int
@@ -420,21 +462,21 @@ RadioBearer::GetHeadOfLinePacketSize (void)
 {
   int size = 0;
   if (GetRlcEntity ()->GetRlcModel () == RlcEntity::AM_RLC_MODE)
-        {
-          AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
-          if (amRlc->GetSentAMDs()->size() > 0)
-                {
-                  size = amRlc->GetSizeOfUnaknowledgedAmd ();
-                }
-          else
-                {
-                  size = GetMacQueue ()->Peek ().GetSize () - GetMacQueue ()->Peek ().GetFragmentOffset();
-                }
-        }
+  {
+    AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
+    if (amRlc->GetSentAMDs()->size() > 0)
+    {
+      size = amRlc->GetSizeOfUnaknowledgedAmd ();
+    }
+    else
+    {
+      size = GetMacQueue ()->Peek ().GetSize () - GetMacQueue ()->Peek ().GetFragmentOffset();
+    }
+  }
   else
-        {
-          size = GetMacQueue ()->Peek ().GetSize () - GetMacQueue ()->Peek ().GetFragmentOffset();
-        }
+  {
+    size = GetMacQueue ()->Peek ().GetSize () - GetMacQueue ()->Peek ().GetFragmentOffset();
+  }
 
   return size;
 }
@@ -444,24 +486,24 @@ RadioBearer::GetByte (int byte)
 {
 	int maxData= 0;
 	if (GetRlcEntity ()->GetRlcModel () == RlcEntity::AM_RLC_MODE)
-	  {
-		AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
-		std::vector<AmdRecord*>* am_segments = amRlc->GetSentAMDs ();
-		if (am_segments->size() > 0)
-		  {
-			for (int i=0; i < am_segments->size(); i++)
-			  {
-				maxData =+ am_segments->at (i)->m_packet->GetSize () + 6;
-				if (maxData >= byte) continue;
-			  }
-		  }
-	  }
+ {
+  AmRlcEntity* amRlc = (AmRlcEntity*) GetRlcEntity ();
+  std::vector<AmdRecord*>* am_segments = amRlc->GetSentAMDs ();
+  if (am_segments->size() > 0)
+  {
+   for (int i=0; i < am_segments->size(); i++)
+   {
+    maxData =+ am_segments->at (i)->m_packet->GetSize () + 6;
+    if (maxData >= byte) continue;
+  }
+}
+}
 
-	if (maxData < byte)
-	  {
-		maxData += GetMacQueue ()->GetByte (byte - maxData);
-	  }
+if (maxData < byte)
+{
+  maxData += GetMacQueue ()->GetByte (byte - maxData);
+}
 
-	return maxData;
+return maxData;
 
 }
