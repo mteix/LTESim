@@ -79,9 +79,10 @@ RadioBearer::RadioBearer()
 */
   m_averageTransmissionRate = 10000; //start value = 10kbps
   
-  P0 =pow(10,6);
-  Q = pow(10,6);
-  R = 1.0;
+  //P0 =pow(10,6);
+  P0 = 1;
+  Q = pow(10,-6); // valor de teste
+  R = pow(.1,2);
   q1 = 1.0;
   P1Q = pow(10,6);
   sigmaQ2 = pow(10,-32);
@@ -146,88 +147,10 @@ RadioBearer::UpdateAverageTransmissionRate ()
    */
 
   double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
-/*  double beta = 0.2;
-
-  m_averageTransmissionRate =
-      ((1 - beta) * m_averageTransmissionRate) + (beta * rate);
-
-  if (m_averageTransmissionRate < 1)
-    {
-	  m_averageTransmissionRate = 1;
-    }
-*/
-
-
-
-  // 28-Nov-2018 by MJT 
-  //#####################################
-  //########## KALMAN FILTER ############
-  //#####################################
-
-
-  // 1. rate is the observation (z)
-  // 2. estimates for initial P0 and m_averageTransmissionRate (xhat) must 
-  // be provided
-
-
-  //Kalman estimates
-
-  xhatminus = m_averageTransmissionRate; // #### KF ORIGINAL  
-
-// 24-Jan-2019 by MJT
-//##########################
-//  KALMAN SUB-FILTER
-//##########################
-
-//q1 = m_averageTransmissionRate; //?????? is this right ?????
-//changing: will declare q1=1 just in the beginning of the simulation. q =1 
-/*
-eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
-
-// declared in beginning of class sigmaQ2 = pow(10,-32); // 2x 16 digit precision
-zk = (rate - xhatminus)*(rate - xhatminus)+R-P0;
-
-//calculus of pseudo observation
-
-kq = P1Q/(P1Q+eta2);
-q0 = (q1+kq)*(zk-q1);
-P0Q = P1Q*(1-kq);
-q1 = q0;
-P1Q = P0Q + sigmaQ2;
-
-if(q1>0)
-  Q = q1;
-else 
-  Q = 0;
-
-
-
-//##########################
-// END KALMAN SUB-FILTER
-//##########################
-
-
-
-
-  Pminus = P0 + Q;  // #### input calculated Q in KF
-
-  //Kalman updates  ##### here we continue with  regular KF
-  K = Pminus/(Pminus + R);
-  m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
-  P0 = (1-K)*Pminus;
-
-
-
-
-
-//#####################################
-//########## KF END        ############
-//#####################################*/
-
-//new 
 
   xhatminus = m_averageTransmissionRate;
   Pminus = P0 + Q;  // #### input calculated Q in KF
+
 
 
   eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
@@ -255,18 +178,6 @@ else
 
 
 
-//end new
-
-
-/*
-std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate 
-          << "\n Kalman parameters: P0 " << P0 << ", P1 " << P1 << ", K " << 
-          K << "xhatminus " << xhatminus  << " rate " << rate << std::endl;
-*/
-
-/*std::cout << "\t SFK: " << m_averageTransmissionRate << "\t Rate: " << rate 
-          << "\t TxBytes: "<< GetTransmittedBytes () << std::endl;
-*/
 #ifdef SCHEDULER_DEBUG
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
   "\n\t tx byte " << GetTransmittedBytes () <<
