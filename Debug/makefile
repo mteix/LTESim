@@ -70,7 +70,7 @@ all: LTE-Sim
 LTE-Sim: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MacOS X C++ Linker'
-	g++  -o "LTE-Sim" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -fopenmp -o "LTE-Sim" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

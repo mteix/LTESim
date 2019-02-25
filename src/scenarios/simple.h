@@ -28,6 +28,7 @@
 #include "../componentManagers/FrameManager.h"
 #include "../componentManagers/FlowsManager.h"
 #include "../device/ENodeB.h"
+#include <omp.h>
 
 
 static void Simple ()

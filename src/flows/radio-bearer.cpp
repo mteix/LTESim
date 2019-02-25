@@ -37,6 +37,7 @@
 #include "../protocolStack/rlc/am-rlc-entity.h"
 #include "../protocolStack/rlc/amd-record.h"
 #include "../load-parameters.h"
+#include <omp.h>
 
 RadioBearer::RadioBearer()
 {
@@ -118,6 +119,79 @@ RadioBearer::UpdateAverageTransmissionRate ()
     {
 	  m_averageTransmissionRate = 1;
     }
+// DO NOTHING JUST TEST
+    int lin = 500;
+    int col =  500;
+
+//double a[500][500];
+vector< vector<double> > a(lin,vector<double>(col));
+double angle;
+//double b[500][500];
+vector< vector<double> > b(lin,vector<double>(col));
+//double c[500][500];
+vector< vector<double> > c(lin,vector<double>(col));
+int i;
+int j;
+int k;
+int n = lin; 
+double pi = 3.141592653589793;
+double s;
+
+double wtime;
+
+//
+//  Loop 1: Evaluate A.
+//
+s = 1.0 / sqrt ( ( double ) ( n ) );
+
+
+# pragma omp parallel shared ( a, b, c, n, pi, s ) private ( angle, i, j, k )
+{
+ 
+  # pragma omp for
+  for ( i = 0; i < n; i++ )
+  {
+    for ( j = 0; j < n; j++ )
+    {
+      angle = 2.0 * pi * i * j / ( double ) n;
+      a[i][j] = s * ( sin ( angle ) + cos ( angle ) );
+    }
+  }
+//
+//  Loop 2: Copy A into B.
+//
+ 
+ 
+  # pragma omp for
+  for ( i = 0; i < n; i++ )
+  {
+    for ( j = 0; j < n; j++ )
+    {
+      b[i][j] = a[i][j];
+    }
+  }
+//
+//  Loop 3: Compute C = A * B.
+//
+ 
+  # pragma omp for
+  for ( i = 0; i < n; i++ )
+  {
+    for ( j = 0; j < n; j++ )
+    {
+      c[i][j] = 0.0;
+      for ( k = 0; k < n; k++ )
+      {
+        c[i][j] = c[i][j] + a[i][k] * b[k][j];
+      }
+    }
+  }
+
+}
+//
+//  Terminate.
+//
+
 
 /*
 #ifdef SCHEDULER_DEBUG
