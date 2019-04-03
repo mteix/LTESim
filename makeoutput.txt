@@ -1,0 +1,596 @@
+if test -f LTE-Sim; then rm LTE-Sim; fi;
+clear;
+[3J[H[2Jcat CONFIG/LTE-Sim
+
+
+
+                       LTE-Sim                        
+                                                      
+    an open source framework to simulate LTE networks 
+    ------------------------------------------------- 
+                                                      
+                Author: Giuseppe Piro 
+       <g.piro@poliba.it, peppe@giuseppepiro.com>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+sleep 2
+cd TOOLS; make; cd ../;
+g++ -O2 make_cdf.cc -o make_cdf -lm 
+g++ -O2 make_fairness_index.cc -o make_fairness_index  -lm
+g++ -O2 make_plr.cc -o make_plr  -lm
+g++ -O2 make_cell_spectral_efficiency.cc -o make_cell_spectral_efficiency  -lm
+g++ -O2 make_goodput.cc -o make_goodput -lm 
+g++ -O2 make_sum.cc -o make_sum -lm 
+g++ -O2 make_avg.cc -o make_avg -lm 
+g++ -O2 make_gput.cc -o make_gput -lm 
+./CONFIG/make_load-parameter-file.sh; 
+cd Debug; make clean; make; cd ..;
+rm -rf  ./src/protocolStack/rrc/rrc-entity.o  ./src/protocolStack/rrc/ho/handover-entity.o ./src/protocolStack/rrc/ho/ho-manager.o ./src/protocolStack/rrc/ho/position-based-ho-manager.o ./src/protocolStack/rrc/ho/power-based-ho-manager.o  ./src/protocolStack/rlc/am-rlc-entity.o ./src/protocolStack/rlc/am-state-variables.o ./src/protocolStack/rlc/amd-record.o ./src/protocolStack/rlc/rlc-entity.o ./src/protocolStack/rlc/tm-rlc-entity.o ./src/protocolStack/rlc/um-rlc-entity.o  ./src/protocolStack/protocols/TransportProtocol.o  ./src/protocolStack/protocol-stack.o  ./src/protocolStack/pdcp/pdcp-entity.o  ./src/protocolStack/packet/Header.o ./src/protocolStack/packet/Packet.o ./src/protocolStack/packet/PacketTAGs.o ./src/protocolStack/packet/packet-burst.o  ./src/protocolStack/nas/nas-entity.o  ./src/protocolStack/mac/AMCModule.o ./src/protocolStack/mac/enb-mac-entity.o ./src/protocolStack/mac/harq-manager.o ./src/protocolStack/mac/henb-mac-entity.o ./src/protocolStack/mac/mac-entity.o ./src/protocolStack/mac/ue-mac-entity.o  ./src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.o  ./src/phy/enb-lte-phy.o ./src/phy/error-model.o ./src/phy/henb-lte-phy.o ./src/phy/interference.o ./src/phy/lte-phy.o ./src/phy/simple-error-model.o ./src/phy/ue-lte-phy.o ./src/phy/wideband-cqi-eesm-error-model.o  ./src/networkTopology/5x5ApartmentGrid.o ./src/networkTopology/Building.o ./src/networkTopology/Cell.o ./src/networkTopology/DualStripe.o ./src/networkTopology/Femtocell.o ./src/networkTopology/Street.o  ./src/mobility/ConstantPosition.o ./src/mobility/Manhattan.o ./src/mobility/Mobility.o ./src/mobility/RandomDirection.o ./src/mobility/RandomWalk.o ./src/mobility/RandomWaypoint.o  ./src/flows/MacQueue.o ./src/flows/radio-bearer-instance.o ./src/flows/radio-bearer-sink.o ./src/flows/radio-bearer.o  ./src/flows/application/Application.o ./src/flows/application/CBR.o ./src/flows/application/InfiniteBuffer.o ./src/flows/application/TraceBased.o ./src/flows/application/VoIP.o ./src/flows/application/WEB.o ./src/flows/application/application-sink.o  ./src/flows/QoS/QoSForEXP.o ./src/flows/QoS/QoSForFLS.o ./src/flows/QoS/QoSForM_LWDF.o ./src/flows/QoS/QoSParameters.o  ./src/device/ENodeB.o ./src/device/Gateway.o ./src/device/HeNodeB.o ./src/device/NetworkNode.o ./src/device/UserEquipment.o  ./src/device/IPClassifier/Classifier.o ./src/device/IPClassifier/ClassifierParameters.o  ./src/device/CqiManager/cqi-manager.o ./src/device/CqiManager/fullband-cqi-manager.o ./src/device/CqiManager/wideband-cqi-manager.o  ./src/core/spectrum/bandwidth-manager.o ./src/core/spectrum/transmitted-signal.o  ./src/core/idealMessages/ideal-control-messages.o  ./src/core/eventScheduler/calendar.o ./src/core/eventScheduler/event.o ./src/core/eventScheduler/simulator.o  ./src/core/cartesianCoodrdinates/CartesianCoordinates.o  ./src/componentManagers/FlowsManager.o ./src/componentManagers/FrameManager.o ./src/componentManagers/NetworkManager.o  ./src/channel/propagation-model/3gpp-downlin-channel-realization.o ./src/channel/propagation-model/channel-realization.o ./src/channel/propagation-model/femtocell-urban-area-channel-realization.o ./src/channel/propagation-model/macrocell-rural-area-channel-realization.o ./src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.o ./src/channel/propagation-model/macrocell-urban-area-channel-realization.o ./src/channel/propagation-model/microcell-area-channel-realization.o ./src/channel/propagation-model/propagation-loss-model.o ./src/channel/propagation-model/winner-downlink-channel-realization.o  ./src/channel/LteChannel.o  ./src/LTE-Sim.o  ./src/protocolStack/rrc/rrc-entity.d  ./src/protocolStack/rlc/rlc-entity.d  ./src/protocolStack/packet/packet-burst.d  ./src/protocolStack/mac/enb-mac-entity.d ./src/protocolStack/mac/mac-entity.d ./src/protocolStack/mac/ue-mac-entity.d  ./src/core/idealMessages/ideal-control-messages.d  ./src/core/eventScheduler/simulator.d  ./src/protocolStack/rrc/ho/handover-entity.d ./src/protocolStack/rrc/ho/ho-manager.d ./src/protocolStack/rrc/ho/position-based-ho-manager.d ./src/protocolStack/rrc/ho/power-based-ho-manager.d  ./src/protocolStack/rlc/am-rlc-entity.d ./src/protocolStack/rlc/am-state-variables.d ./src/protocolStack/rlc/amd-record.d ./src/protocolStack/rlc/tm-rlc-entity.d ./src/protocolStack/rlc/um-rlc-entity.d  ./src/protocolStack/protocols/TransportProtocol.d  ./src/protocolStack/protocol-stack.d  ./src/protocolStack/pdcp/pdcp-entity.d  ./src/protocolStack/packet/Header.d ./src/protocolStack/packet/Packet.d ./src/protocolStack/packet/PacketTAGs.d  ./src/protocolStack/nas/nas-entity.d  ./src/protocolStack/mac/AMCModule.d ./src/protocolStack/mac/harq-manager.d ./src/protocolStack/mac/henb-mac-entity.d  ./src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.d ./src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.d  ./src/phy/enb-lte-phy.d ./src/phy/error-model.d ./src/phy/henb-lte-phy.d ./src/phy/interference.d ./src/phy/lte-phy.d ./src/phy/simple-error-model.d ./src/phy/ue-lte-phy.d ./src/phy/wideband-cqi-eesm-error-model.d  ./src/networkTopology/5x5ApartmentGrid.d ./src/networkTopology/Building.d ./src/networkTopology/Cell.d ./src/networkTopology/DualStripe.d ./src/networkTopology/Femtocell.d ./src/networkTopology/Street.d  ./src/mobility/ConstantPosition.d ./src/mobility/Manhattan.d ./src/mobility/Mobility.d ./src/mobility/RandomDirection.d ./src/mobility/RandomWalk.d ./src/mobility/RandomWaypoint.d  ./src/flows/MacQueue.d ./src/flows/radio-bearer-instance.d ./src/flows/radio-bearer-sink.d ./src/flows/radio-bearer.d  ./src/flows/application/Application.d ./src/flows/application/CBR.d ./src/flows/application/InfiniteBuffer.d ./src/flows/application/TraceBased.d ./src/flows/application/VoIP.d ./src/flows/application/WEB.d ./src/flows/application/application-sink.d  ./src/flows/QoS/QoSForEXP.d ./src/flows/QoS/QoSForFLS.d ./src/flows/QoS/QoSForM_LWDF.d ./src/flows/QoS/QoSParameters.d  ./src/device/ENodeB.d ./src/device/Gateway.d ./src/device/HeNodeB.d ./src/device/NetworkNode.d ./src/device/UserEquipment.d  ./src/device/IPClassifier/Classifier.d ./src/device/IPClassifier/ClassifierParameters.d  ./src/device/CqiManager/cqi-manager.d ./src/device/CqiManager/fullband-cqi-manager.d ./src/device/CqiManager/wideband-cqi-manager.d  ./src/core/spectrum/bandwidth-manager.d ./src/core/spectrum/transmitted-signal.d  ./src/core/eventScheduler/calendar.d ./src/core/eventScheduler/event.d  ./src/core/cartesianCoodrdinates/CartesianCoordinates.d  ./src/componentManagers/FlowsManager.d ./src/componentManagers/FrameManager.d ./src/componentManagers/NetworkManager.d  ./src/channel/propagation-model/3gpp-downlin-channel-realization.d ./src/channel/propagation-model/channel-realization.d ./src/channel/propagation-model/femtocell-urban-area-channel-realization.d ./src/channel/propagation-model/macrocell-rural-area-channel-realization.d ./src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.d ./src/channel/propagation-model/macrocell-urban-area-channel-realization.d ./src/channel/propagation-model/microcell-area-channel-realization.d ./src/channel/propagation-model/propagation-loss-model.d ./src/channel/propagation-model/winner-downlink-channel-realization.d  ./src/channel/LteChannel.d  ./src/LTE-Sim.d  LTE-Sim
+ 
+Building file: ../src/protocolStack/rrc/rrc-entity.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rrc/rrc-entity.d" -MT"src/protocolStack/rrc/rrc-entity.d" -o"src/protocolStack/rrc/rrc-entity.o" "../src/protocolStack/rrc/rrc-entity.cc"
+Finished building: ../src/protocolStack/rrc/rrc-entity.cc
+ 
+Building file: ../src/protocolStack/rrc/ho/handover-entity.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rrc/ho/handover-entity.d" -MT"src/protocolStack/rrc/ho/handover-entity.d" -o"src/protocolStack/rrc/ho/handover-entity.o" "../src/protocolStack/rrc/ho/handover-entity.cpp"
+Finished building: ../src/protocolStack/rrc/ho/handover-entity.cpp
+ 
+Building file: ../src/protocolStack/rrc/ho/ho-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rrc/ho/ho-manager.d" -MT"src/protocolStack/rrc/ho/ho-manager.d" -o"src/protocolStack/rrc/ho/ho-manager.o" "../src/protocolStack/rrc/ho/ho-manager.cpp"
+Finished building: ../src/protocolStack/rrc/ho/ho-manager.cpp
+ 
+Building file: ../src/protocolStack/rrc/ho/position-based-ho-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rrc/ho/position-based-ho-manager.d" -MT"src/protocolStack/rrc/ho/position-based-ho-manager.d" -o"src/protocolStack/rrc/ho/position-based-ho-manager.o" "../src/protocolStack/rrc/ho/position-based-ho-manager.cpp"
+Finished building: ../src/protocolStack/rrc/ho/position-based-ho-manager.cpp
+ 
+Building file: ../src/protocolStack/rrc/ho/power-based-ho-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rrc/ho/power-based-ho-manager.d" -MT"src/protocolStack/rrc/ho/power-based-ho-manager.d" -o"src/protocolStack/rrc/ho/power-based-ho-manager.o" "../src/protocolStack/rrc/ho/power-based-ho-manager.cpp"
+Finished building: ../src/protocolStack/rrc/ho/power-based-ho-manager.cpp
+ 
+Building file: ../src/protocolStack/rlc/am-rlc-entity.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rlc/am-rlc-entity.d" -MT"src/protocolStack/rlc/am-rlc-entity.d" -o"src/protocolStack/rlc/am-rlc-entity.o" "../src/protocolStack/rlc/am-rlc-entity.cpp"
+Finished building: ../src/protocolStack/rlc/am-rlc-entity.cpp
+ 
+Building file: ../src/protocolStack/rlc/am-state-variables.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rlc/am-state-variables.d" -MT"src/protocolStack/rlc/am-state-variables.d" -o"src/protocolStack/rlc/am-state-variables.o" "../src/protocolStack/rlc/am-state-variables.cpp"
+Finished building: ../src/protocolStack/rlc/am-state-variables.cpp
+ 
+Building file: ../src/protocolStack/rlc/amd-record.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rlc/amd-record.d" -MT"src/protocolStack/rlc/amd-record.d" -o"src/protocolStack/rlc/amd-record.o" "../src/protocolStack/rlc/amd-record.cpp"
+Finished building: ../src/protocolStack/rlc/amd-record.cpp
+ 
+Building file: ../src/protocolStack/rlc/rlc-entity.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rlc/rlc-entity.d" -MT"src/protocolStack/rlc/rlc-entity.d" -o"src/protocolStack/rlc/rlc-entity.o" "../src/protocolStack/rlc/rlc-entity.cc"
+Finished building: ../src/protocolStack/rlc/rlc-entity.cc
+ 
+Building file: ../src/protocolStack/rlc/tm-rlc-entity.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rlc/tm-rlc-entity.d" -MT"src/protocolStack/rlc/tm-rlc-entity.d" -o"src/protocolStack/rlc/tm-rlc-entity.o" "../src/protocolStack/rlc/tm-rlc-entity.cpp"
+Finished building: ../src/protocolStack/rlc/tm-rlc-entity.cpp
+ 
+Building file: ../src/protocolStack/rlc/um-rlc-entity.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/rlc/um-rlc-entity.d" -MT"src/protocolStack/rlc/um-rlc-entity.d" -o"src/protocolStack/rlc/um-rlc-entity.o" "../src/protocolStack/rlc/um-rlc-entity.cpp"
+Finished building: ../src/protocolStack/rlc/um-rlc-entity.cpp
+ 
+Building file: ../src/protocolStack/protocols/TransportProtocol.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/protocols/TransportProtocol.d" -MT"src/protocolStack/protocols/TransportProtocol.d" -o"src/protocolStack/protocols/TransportProtocol.o" "../src/protocolStack/protocols/TransportProtocol.cpp"
+Finished building: ../src/protocolStack/protocols/TransportProtocol.cpp
+ 
+Building file: ../src/protocolStack/protocol-stack.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/protocol-stack.d" -MT"src/protocolStack/protocol-stack.d" -o"src/protocolStack/protocol-stack.o" "../src/protocolStack/protocol-stack.cpp"
+Finished building: ../src/protocolStack/protocol-stack.cpp
+ 
+Building file: ../src/protocolStack/pdcp/pdcp-entity.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/pdcp/pdcp-entity.d" -MT"src/protocolStack/pdcp/pdcp-entity.d" -o"src/protocolStack/pdcp/pdcp-entity.o" "../src/protocolStack/pdcp/pdcp-entity.cpp"
+Finished building: ../src/protocolStack/pdcp/pdcp-entity.cpp
+ 
+Building file: ../src/protocolStack/packet/Header.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/packet/Header.d" -MT"src/protocolStack/packet/Header.d" -o"src/protocolStack/packet/Header.o" "../src/protocolStack/packet/Header.cpp"
+Finished building: ../src/protocolStack/packet/Header.cpp
+ 
+Building file: ../src/protocolStack/packet/Packet.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/packet/Packet.d" -MT"src/protocolStack/packet/Packet.d" -o"src/protocolStack/packet/Packet.o" "../src/protocolStack/packet/Packet.cpp"
+Finished building: ../src/protocolStack/packet/Packet.cpp
+ 
+Building file: ../src/protocolStack/packet/PacketTAGs.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/packet/PacketTAGs.d" -MT"src/protocolStack/packet/PacketTAGs.d" -o"src/protocolStack/packet/PacketTAGs.o" "../src/protocolStack/packet/PacketTAGs.cpp"
+Finished building: ../src/protocolStack/packet/PacketTAGs.cpp
+ 
+Building file: ../src/protocolStack/packet/packet-burst.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/packet/packet-burst.d" -MT"src/protocolStack/packet/packet-burst.d" -o"src/protocolStack/packet/packet-burst.o" "../src/protocolStack/packet/packet-burst.cc"
+Finished building: ../src/protocolStack/packet/packet-burst.cc
+ 
+Building file: ../src/protocolStack/nas/nas-entity.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/nas/nas-entity.d" -MT"src/protocolStack/nas/nas-entity.d" -o"src/protocolStack/nas/nas-entity.o" "../src/protocolStack/nas/nas-entity.cpp"
+Finished building: ../src/protocolStack/nas/nas-entity.cpp
+ 
+Building file: ../src/protocolStack/mac/AMCModule.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/AMCModule.d" -MT"src/protocolStack/mac/AMCModule.d" -o"src/protocolStack/mac/AMCModule.o" "../src/protocolStack/mac/AMCModule.cpp"
+Finished building: ../src/protocolStack/mac/AMCModule.cpp
+ 
+Building file: ../src/protocolStack/mac/enb-mac-entity.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/enb-mac-entity.d" -MT"src/protocolStack/mac/enb-mac-entity.d" -o"src/protocolStack/mac/enb-mac-entity.o" "../src/protocolStack/mac/enb-mac-entity.cc"
+Finished building: ../src/protocolStack/mac/enb-mac-entity.cc
+ 
+Building file: ../src/protocolStack/mac/harq-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/harq-manager.d" -MT"src/protocolStack/mac/harq-manager.d" -o"src/protocolStack/mac/harq-manager.o" "../src/protocolStack/mac/harq-manager.cpp"
+Finished building: ../src/protocolStack/mac/harq-manager.cpp
+ 
+Building file: ../src/protocolStack/mac/henb-mac-entity.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/henb-mac-entity.d" -MT"src/protocolStack/mac/henb-mac-entity.d" -o"src/protocolStack/mac/henb-mac-entity.o" "../src/protocolStack/mac/henb-mac-entity.cpp"
+Finished building: ../src/protocolStack/mac/henb-mac-entity.cpp
+ 
+Building file: ../src/protocolStack/mac/mac-entity.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/mac-entity.d" -MT"src/protocolStack/mac/mac-entity.d" -o"src/protocolStack/mac/mac-entity.o" "../src/protocolStack/mac/mac-entity.cc"
+Finished building: ../src/protocolStack/mac/mac-entity.cc
+ 
+Building file: ../src/protocolStack/mac/ue-mac-entity.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/ue-mac-entity.d" -MT"src/protocolStack/mac/ue-mac-entity.d" -o"src/protocolStack/mac/ue-mac-entity.o" "../src/protocolStack/mac/ue-mac-entity.cc"
+Finished building: ../src/protocolStack/mac/ue-mac-entity.cc
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.cpp
+ 
+Building file: ../src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.d" -MT"src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.d" -o"src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.o" "../src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.cpp"
+Finished building: ../src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.cpp
+ 
+Building file: ../src/phy/enb-lte-phy.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/enb-lte-phy.d" -MT"src/phy/enb-lte-phy.d" -o"src/phy/enb-lte-phy.o" "../src/phy/enb-lte-phy.cpp"
+Finished building: ../src/phy/enb-lte-phy.cpp
+ 
+Building file: ../src/phy/error-model.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/error-model.d" -MT"src/phy/error-model.d" -o"src/phy/error-model.o" "../src/phy/error-model.cpp"
+Finished building: ../src/phy/error-model.cpp
+ 
+Building file: ../src/phy/henb-lte-phy.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/henb-lte-phy.d" -MT"src/phy/henb-lte-phy.d" -o"src/phy/henb-lte-phy.o" "../src/phy/henb-lte-phy.cpp"
+Finished building: ../src/phy/henb-lte-phy.cpp
+ 
+Building file: ../src/phy/interference.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/interference.d" -MT"src/phy/interference.d" -o"src/phy/interference.o" "../src/phy/interference.cpp"
+Finished building: ../src/phy/interference.cpp
+ 
+Building file: ../src/phy/lte-phy.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/lte-phy.d" -MT"src/phy/lte-phy.d" -o"src/phy/lte-phy.o" "../src/phy/lte-phy.cpp"
+Finished building: ../src/phy/lte-phy.cpp
+ 
+Building file: ../src/phy/simple-error-model.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/simple-error-model.d" -MT"src/phy/simple-error-model.d" -o"src/phy/simple-error-model.o" "../src/phy/simple-error-model.cpp"
+Finished building: ../src/phy/simple-error-model.cpp
+ 
+Building file: ../src/phy/ue-lte-phy.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/ue-lte-phy.d" -MT"src/phy/ue-lte-phy.d" -o"src/phy/ue-lte-phy.o" "../src/phy/ue-lte-phy.cpp"
+Finished building: ../src/phy/ue-lte-phy.cpp
+ 
+Building file: ../src/phy/wideband-cqi-eesm-error-model.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/phy/wideband-cqi-eesm-error-model.d" -MT"src/phy/wideband-cqi-eesm-error-model.d" -o"src/phy/wideband-cqi-eesm-error-model.o" "../src/phy/wideband-cqi-eesm-error-model.cpp"
+Finished building: ../src/phy/wideband-cqi-eesm-error-model.cpp
+ 
+Building file: ../src/networkTopology/5x5ApartmentGrid.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/networkTopology/5x5ApartmentGrid.d" -MT"src/networkTopology/5x5ApartmentGrid.d" -o"src/networkTopology/5x5ApartmentGrid.o" "../src/networkTopology/5x5ApartmentGrid.cpp"
+Finished building: ../src/networkTopology/5x5ApartmentGrid.cpp
+ 
+Building file: ../src/networkTopology/Building.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/networkTopology/Building.d" -MT"src/networkTopology/Building.d" -o"src/networkTopology/Building.o" "../src/networkTopology/Building.cpp"
+Finished building: ../src/networkTopology/Building.cpp
+ 
+Building file: ../src/networkTopology/Cell.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/networkTopology/Cell.d" -MT"src/networkTopology/Cell.d" -o"src/networkTopology/Cell.o" "../src/networkTopology/Cell.cpp"
+Finished building: ../src/networkTopology/Cell.cpp
+ 
+Building file: ../src/networkTopology/DualStripe.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/networkTopology/DualStripe.d" -MT"src/networkTopology/DualStripe.d" -o"src/networkTopology/DualStripe.o" "../src/networkTopology/DualStripe.cpp"
+Finished building: ../src/networkTopology/DualStripe.cpp
+ 
+Building file: ../src/networkTopology/Femtocell.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/networkTopology/Femtocell.d" -MT"src/networkTopology/Femtocell.d" -o"src/networkTopology/Femtocell.o" "../src/networkTopology/Femtocell.cpp"
+Finished building: ../src/networkTopology/Femtocell.cpp
+ 
+Building file: ../src/networkTopology/Street.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/networkTopology/Street.d" -MT"src/networkTopology/Street.d" -o"src/networkTopology/Street.o" "../src/networkTopology/Street.cpp"
+Finished building: ../src/networkTopology/Street.cpp
+ 
+Building file: ../src/mobility/ConstantPosition.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mobility/ConstantPosition.d" -MT"src/mobility/ConstantPosition.d" -o"src/mobility/ConstantPosition.o" "../src/mobility/ConstantPosition.cpp"
+Finished building: ../src/mobility/ConstantPosition.cpp
+ 
+Building file: ../src/mobility/Manhattan.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mobility/Manhattan.d" -MT"src/mobility/Manhattan.d" -o"src/mobility/Manhattan.o" "../src/mobility/Manhattan.cpp"
+Finished building: ../src/mobility/Manhattan.cpp
+ 
+Building file: ../src/mobility/Mobility.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mobility/Mobility.d" -MT"src/mobility/Mobility.d" -o"src/mobility/Mobility.o" "../src/mobility/Mobility.cpp"
+Finished building: ../src/mobility/Mobility.cpp
+ 
+Building file: ../src/mobility/RandomDirection.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mobility/RandomDirection.d" -MT"src/mobility/RandomDirection.d" -o"src/mobility/RandomDirection.o" "../src/mobility/RandomDirection.cpp"
+Finished building: ../src/mobility/RandomDirection.cpp
+ 
+Building file: ../src/mobility/RandomWalk.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mobility/RandomWalk.d" -MT"src/mobility/RandomWalk.d" -o"src/mobility/RandomWalk.o" "../src/mobility/RandomWalk.cpp"
+Finished building: ../src/mobility/RandomWalk.cpp
+ 
+Building file: ../src/mobility/RandomWaypoint.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mobility/RandomWaypoint.d" -MT"src/mobility/RandomWaypoint.d" -o"src/mobility/RandomWaypoint.o" "../src/mobility/RandomWaypoint.cpp"
+Finished building: ../src/mobility/RandomWaypoint.cpp
+ 
+Building file: ../src/flows/MacQueue.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/MacQueue.d" -MT"src/flows/MacQueue.d" -o"src/flows/MacQueue.o" "../src/flows/MacQueue.cpp"
+Finished building: ../src/flows/MacQueue.cpp
+ 
+Building file: ../src/flows/radio-bearer-instance.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/radio-bearer-instance.d" -MT"src/flows/radio-bearer-instance.d" -o"src/flows/radio-bearer-instance.o" "../src/flows/radio-bearer-instance.cpp"
+Finished building: ../src/flows/radio-bearer-instance.cpp
+ 
+Building file: ../src/flows/radio-bearer-sink.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/radio-bearer-sink.d" -MT"src/flows/radio-bearer-sink.d" -o"src/flows/radio-bearer-sink.o" "../src/flows/radio-bearer-sink.cpp"
+Finished building: ../src/flows/radio-bearer-sink.cpp
+ 
+Building file: ../src/flows/radio-bearer.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/radio-bearer.d" -MT"src/flows/radio-bearer.d" -o"src/flows/radio-bearer.o" "../src/flows/radio-bearer.cpp"
+Finished building: ../src/flows/radio-bearer.cpp
+ 
+Building file: ../src/flows/application/Application.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/application/Application.d" -MT"src/flows/application/Application.d" -o"src/flows/application/Application.o" "../src/flows/application/Application.cpp"
+Finished building: ../src/flows/application/Application.cpp
+ 
+Building file: ../src/flows/application/CBR.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/application/CBR.d" -MT"src/flows/application/CBR.d" -o"src/flows/application/CBR.o" "../src/flows/application/CBR.cpp"
+Finished building: ../src/flows/application/CBR.cpp
+ 
+Building file: ../src/flows/application/InfiniteBuffer.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/application/InfiniteBuffer.d" -MT"src/flows/application/InfiniteBuffer.d" -o"src/flows/application/InfiniteBuffer.o" "../src/flows/application/InfiniteBuffer.cpp"
+Finished building: ../src/flows/application/InfiniteBuffer.cpp
+ 
+Building file: ../src/flows/application/TraceBased.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/application/TraceBased.d" -MT"src/flows/application/TraceBased.d" -o"src/flows/application/TraceBased.o" "../src/flows/application/TraceBased.cpp"
+Finished building: ../src/flows/application/TraceBased.cpp
+ 
+Building file: ../src/flows/application/VoIP.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/application/VoIP.d" -MT"src/flows/application/VoIP.d" -o"src/flows/application/VoIP.o" "../src/flows/application/VoIP.cpp"
+Finished building: ../src/flows/application/VoIP.cpp
+ 
+Building file: ../src/flows/application/WEB.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/application/WEB.d" -MT"src/flows/application/WEB.d" -o"src/flows/application/WEB.o" "../src/flows/application/WEB.cpp"
+Finished building: ../src/flows/application/WEB.cpp
+ 
+Building file: ../src/flows/application/application-sink.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/application/application-sink.d" -MT"src/flows/application/application-sink.d" -o"src/flows/application/application-sink.o" "../src/flows/application/application-sink.cpp"
+Finished building: ../src/flows/application/application-sink.cpp
+ 
+Building file: ../src/flows/QoS/QoSForEXP.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/QoS/QoSForEXP.d" -MT"src/flows/QoS/QoSForEXP.d" -o"src/flows/QoS/QoSForEXP.o" "../src/flows/QoS/QoSForEXP.cpp"
+Finished building: ../src/flows/QoS/QoSForEXP.cpp
+ 
+Building file: ../src/flows/QoS/QoSForFLS.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/QoS/QoSForFLS.d" -MT"src/flows/QoS/QoSForFLS.d" -o"src/flows/QoS/QoSForFLS.o" "../src/flows/QoS/QoSForFLS.cpp"
+Finished building: ../src/flows/QoS/QoSForFLS.cpp
+ 
+Building file: ../src/flows/QoS/QoSForM_LWDF.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/QoS/QoSForM_LWDF.d" -MT"src/flows/QoS/QoSForM_LWDF.d" -o"src/flows/QoS/QoSForM_LWDF.o" "../src/flows/QoS/QoSForM_LWDF.cpp"
+Finished building: ../src/flows/QoS/QoSForM_LWDF.cpp
+ 
+Building file: ../src/flows/QoS/QoSParameters.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/flows/QoS/QoSParameters.d" -MT"src/flows/QoS/QoSParameters.d" -o"src/flows/QoS/QoSParameters.o" "../src/flows/QoS/QoSParameters.cpp"
+Finished building: ../src/flows/QoS/QoSParameters.cpp
+ 
+Building file: ../src/device/ENodeB.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/ENodeB.d" -MT"src/device/ENodeB.d" -o"src/device/ENodeB.o" "../src/device/ENodeB.cpp"
+Finished building: ../src/device/ENodeB.cpp
+ 
+Building file: ../src/device/Gateway.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/Gateway.d" -MT"src/device/Gateway.d" -o"src/device/Gateway.o" "../src/device/Gateway.cpp"
+Finished building: ../src/device/Gateway.cpp
+ 
+Building file: ../src/device/HeNodeB.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/HeNodeB.d" -MT"src/device/HeNodeB.d" -o"src/device/HeNodeB.o" "../src/device/HeNodeB.cpp"
+Finished building: ../src/device/HeNodeB.cpp
+ 
+Building file: ../src/device/NetworkNode.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/NetworkNode.d" -MT"src/device/NetworkNode.d" -o"src/device/NetworkNode.o" "../src/device/NetworkNode.cpp"
+Finished building: ../src/device/NetworkNode.cpp
+ 
+Building file: ../src/device/UserEquipment.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/UserEquipment.d" -MT"src/device/UserEquipment.d" -o"src/device/UserEquipment.o" "../src/device/UserEquipment.cpp"
+Finished building: ../src/device/UserEquipment.cpp
+ 
+Building file: ../src/device/IPClassifier/Classifier.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/IPClassifier/Classifier.d" -MT"src/device/IPClassifier/Classifier.d" -o"src/device/IPClassifier/Classifier.o" "../src/device/IPClassifier/Classifier.cpp"
+Finished building: ../src/device/IPClassifier/Classifier.cpp
+ 
+Building file: ../src/device/IPClassifier/ClassifierParameters.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/IPClassifier/ClassifierParameters.d" -MT"src/device/IPClassifier/ClassifierParameters.d" -o"src/device/IPClassifier/ClassifierParameters.o" "../src/device/IPClassifier/ClassifierParameters.cpp"
+Finished building: ../src/device/IPClassifier/ClassifierParameters.cpp
+ 
+Building file: ../src/device/CqiManager/cqi-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/CqiManager/cqi-manager.d" -MT"src/device/CqiManager/cqi-manager.d" -o"src/device/CqiManager/cqi-manager.o" "../src/device/CqiManager/cqi-manager.cpp"
+Finished building: ../src/device/CqiManager/cqi-manager.cpp
+ 
+Building file: ../src/device/CqiManager/fullband-cqi-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/CqiManager/fullband-cqi-manager.d" -MT"src/device/CqiManager/fullband-cqi-manager.d" -o"src/device/CqiManager/fullband-cqi-manager.o" "../src/device/CqiManager/fullband-cqi-manager.cpp"
+Finished building: ../src/device/CqiManager/fullband-cqi-manager.cpp
+ 
+Building file: ../src/device/CqiManager/wideband-cqi-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/device/CqiManager/wideband-cqi-manager.d" -MT"src/device/CqiManager/wideband-cqi-manager.d" -o"src/device/CqiManager/wideband-cqi-manager.o" "../src/device/CqiManager/wideband-cqi-manager.cpp"
+Finished building: ../src/device/CqiManager/wideband-cqi-manager.cpp
+ 
+Building file: ../src/core/spectrum/bandwidth-manager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/core/spectrum/bandwidth-manager.d" -MT"src/core/spectrum/bandwidth-manager.d" -o"src/core/spectrum/bandwidth-manager.o" "../src/core/spectrum/bandwidth-manager.cpp"
+Finished building: ../src/core/spectrum/bandwidth-manager.cpp
+ 
+Building file: ../src/core/spectrum/transmitted-signal.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/core/spectrum/transmitted-signal.d" -MT"src/core/spectrum/transmitted-signal.d" -o"src/core/spectrum/transmitted-signal.o" "../src/core/spectrum/transmitted-signal.cpp"
+Finished building: ../src/core/spectrum/transmitted-signal.cpp
+ 
+Building file: ../src/core/idealMessages/ideal-control-messages.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/core/idealMessages/ideal-control-messages.d" -MT"src/core/idealMessages/ideal-control-messages.d" -o"src/core/idealMessages/ideal-control-messages.o" "../src/core/idealMessages/ideal-control-messages.cc"
+Finished building: ../src/core/idealMessages/ideal-control-messages.cc
+ 
+Building file: ../src/core/eventScheduler/calendar.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/core/eventScheduler/calendar.d" -MT"src/core/eventScheduler/calendar.d" -o"src/core/eventScheduler/calendar.o" "../src/core/eventScheduler/calendar.cpp"
+Finished building: ../src/core/eventScheduler/calendar.cpp
+ 
+Building file: ../src/core/eventScheduler/event.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/core/eventScheduler/event.d" -MT"src/core/eventScheduler/event.d" -o"src/core/eventScheduler/event.o" "../src/core/eventScheduler/event.cpp"
+Finished building: ../src/core/eventScheduler/event.cpp
+ 
+Building file: ../src/core/eventScheduler/simulator.cc
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/core/eventScheduler/simulator.d" -MT"src/core/eventScheduler/simulator.d" -o"src/core/eventScheduler/simulator.o" "../src/core/eventScheduler/simulator.cc"
+Finished building: ../src/core/eventScheduler/simulator.cc
+ 
+Building file: ../src/core/cartesianCoodrdinates/CartesianCoordinates.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/core/cartesianCoodrdinates/CartesianCoordinates.d" -MT"src/core/cartesianCoodrdinates/CartesianCoordinates.d" -o"src/core/cartesianCoodrdinates/CartesianCoordinates.o" "../src/core/cartesianCoodrdinates/CartesianCoordinates.cpp"
+Finished building: ../src/core/cartesianCoodrdinates/CartesianCoordinates.cpp
+ 
+Building file: ../src/componentManagers/FlowsManager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/componentManagers/FlowsManager.d" -MT"src/componentManagers/FlowsManager.d" -o"src/componentManagers/FlowsManager.o" "../src/componentManagers/FlowsManager.cpp"
+Finished building: ../src/componentManagers/FlowsManager.cpp
+ 
+Building file: ../src/componentManagers/FrameManager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/componentManagers/FrameManager.d" -MT"src/componentManagers/FrameManager.d" -o"src/componentManagers/FrameManager.o" "../src/componentManagers/FrameManager.cpp"
+Finished building: ../src/componentManagers/FrameManager.cpp
+ 
+Building file: ../src/componentManagers/NetworkManager.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/componentManagers/NetworkManager.d" -MT"src/componentManagers/NetworkManager.d" -o"src/componentManagers/NetworkManager.o" "../src/componentManagers/NetworkManager.cpp"
+Finished building: ../src/componentManagers/NetworkManager.cpp
+ 
+Building file: ../src/channel/propagation-model/3gpp-downlin-channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/3gpp-downlin-channel-realization.d" -MT"src/channel/propagation-model/3gpp-downlin-channel-realization.d" -o"src/channel/propagation-model/3gpp-downlin-channel-realization.o" "../src/channel/propagation-model/3gpp-downlin-channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/3gpp-downlin-channel-realization.cpp
+ 
+Building file: ../src/channel/propagation-model/channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/channel-realization.d" -MT"src/channel/propagation-model/channel-realization.d" -o"src/channel/propagation-model/channel-realization.o" "../src/channel/propagation-model/channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/channel-realization.cpp
+ 
+Building file: ../src/channel/propagation-model/femtocell-urban-area-channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/femtocell-urban-area-channel-realization.d" -MT"src/channel/propagation-model/femtocell-urban-area-channel-realization.d" -o"src/channel/propagation-model/femtocell-urban-area-channel-realization.o" "../src/channel/propagation-model/femtocell-urban-area-channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/femtocell-urban-area-channel-realization.cpp
+ 
+Building file: ../src/channel/propagation-model/macrocell-rural-area-channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/macrocell-rural-area-channel-realization.d" -MT"src/channel/propagation-model/macrocell-rural-area-channel-realization.d" -o"src/channel/propagation-model/macrocell-rural-area-channel-realization.o" "../src/channel/propagation-model/macrocell-rural-area-channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/macrocell-rural-area-channel-realization.cpp
+ 
+Building file: ../src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.d" -MT"src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.d" -o"src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.o" "../src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.cpp
+ 
+Building file: ../src/channel/propagation-model/macrocell-urban-area-channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/macrocell-urban-area-channel-realization.d" -MT"src/channel/propagation-model/macrocell-urban-area-channel-realization.d" -o"src/channel/propagation-model/macrocell-urban-area-channel-realization.o" "../src/channel/propagation-model/macrocell-urban-area-channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/macrocell-urban-area-channel-realization.cpp
+ 
+Building file: ../src/channel/propagation-model/microcell-area-channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/microcell-area-channel-realization.d" -MT"src/channel/propagation-model/microcell-area-channel-realization.d" -o"src/channel/propagation-model/microcell-area-channel-realization.o" "../src/channel/propagation-model/microcell-area-channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/microcell-area-channel-realization.cpp
+ 
+Building file: ../src/channel/propagation-model/propagation-loss-model.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/propagation-loss-model.d" -MT"src/channel/propagation-model/propagation-loss-model.d" -o"src/channel/propagation-model/propagation-loss-model.o" "../src/channel/propagation-model/propagation-loss-model.cpp"
+Finished building: ../src/channel/propagation-model/propagation-loss-model.cpp
+ 
+Building file: ../src/channel/propagation-model/winner-downlink-channel-realization.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/propagation-model/winner-downlink-channel-realization.d" -MT"src/channel/propagation-model/winner-downlink-channel-realization.d" -o"src/channel/propagation-model/winner-downlink-channel-realization.o" "../src/channel/propagation-model/winner-downlink-channel-realization.cpp"
+Finished building: ../src/channel/propagation-model/winner-downlink-channel-realization.cpp
+ 
+Building file: ../src/channel/LteChannel.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/channel/LteChannel.d" -MT"src/channel/LteChannel.d" -o"src/channel/LteChannel.o" "../src/channel/LteChannel.cpp"
+Finished building: ../src/channel/LteChannel.cpp
+ 
+Building file: ../src/LTE-Sim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/LTE-Sim.d" -MT"src/LTE-Sim.d" -o"src/LTE-Sim.o" "../src/LTE-Sim.cpp"
+Finished building: ../src/LTE-Sim.cpp
+ 
+Building target: LTE-Sim
+Invoking: MacOS X C++ Linker
+g++  -o "LTE-Sim"  ./src/protocolStack/rrc/rrc-entity.o  ./src/protocolStack/rrc/ho/handover-entity.o ./src/protocolStack/rrc/ho/ho-manager.o ./src/protocolStack/rrc/ho/position-based-ho-manager.o ./src/protocolStack/rrc/ho/power-based-ho-manager.o  ./src/protocolStack/rlc/am-rlc-entity.o ./src/protocolStack/rlc/am-state-variables.o ./src/protocolStack/rlc/amd-record.o ./src/protocolStack/rlc/rlc-entity.o ./src/protocolStack/rlc/tm-rlc-entity.o ./src/protocolStack/rlc/um-rlc-entity.o  ./src/protocolStack/protocols/TransportProtocol.o  ./src/protocolStack/protocol-stack.o  ./src/protocolStack/pdcp/pdcp-entity.o  ./src/protocolStack/packet/Header.o ./src/protocolStack/packet/Packet.o ./src/protocolStack/packet/PacketTAGs.o ./src/protocolStack/packet/packet-burst.o  ./src/protocolStack/nas/nas-entity.o  ./src/protocolStack/mac/AMCModule.o ./src/protocolStack/mac/enb-mac-entity.o ./src/protocolStack/mac/harq-manager.o ./src/protocolStack/mac/henb-mac-entity.o ./src/protocolStack/mac/mac-entity.o ./src/protocolStack/mac/ue-mac-entity.o  ./src/protocolStack/mac/packet-scheduler/delay-edd-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-exp-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-fls-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-mlwdf-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/dl-pf-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/enhanced-uplink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/exp-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/log-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/mt-uplink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/mw-rule-downlink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/roundrobin-uplink-packet-scheduler.o ./src/protocolStack/mac/packet-scheduler/uplink-packet-scheduler.o  ./src/phy/enb-lte-phy.o ./src/phy/error-model.o ./src/phy/henb-lte-phy.o ./src/phy/interference.o ./src/phy/lte-phy.o ./src/phy/simple-error-model.o ./src/phy/ue-lte-phy.o ./src/phy/wideband-cqi-eesm-error-model.o  ./src/networkTopology/5x5ApartmentGrid.o ./src/networkTopology/Building.o ./src/networkTopology/Cell.o ./src/networkTopology/DualStripe.o ./src/networkTopology/Femtocell.o ./src/networkTopology/Street.o  ./src/mobility/ConstantPosition.o ./src/mobility/Manhattan.o ./src/mobility/Mobility.o ./src/mobility/RandomDirection.o ./src/mobility/RandomWalk.o ./src/mobility/RandomWaypoint.o  ./src/flows/MacQueue.o ./src/flows/radio-bearer-instance.o ./src/flows/radio-bearer-sink.o ./src/flows/radio-bearer.o  ./src/flows/application/Application.o ./src/flows/application/CBR.o ./src/flows/application/InfiniteBuffer.o ./src/flows/application/TraceBased.o ./src/flows/application/VoIP.o ./src/flows/application/WEB.o ./src/flows/application/application-sink.o  ./src/flows/QoS/QoSForEXP.o ./src/flows/QoS/QoSForFLS.o ./src/flows/QoS/QoSForM_LWDF.o ./src/flows/QoS/QoSParameters.o  ./src/device/ENodeB.o ./src/device/Gateway.o ./src/device/HeNodeB.o ./src/device/NetworkNode.o ./src/device/UserEquipment.o  ./src/device/IPClassifier/Classifier.o ./src/device/IPClassifier/ClassifierParameters.o  ./src/device/CqiManager/cqi-manager.o ./src/device/CqiManager/fullband-cqi-manager.o ./src/device/CqiManager/wideband-cqi-manager.o  ./src/core/spectrum/bandwidth-manager.o ./src/core/spectrum/transmitted-signal.o  ./src/core/idealMessages/ideal-control-messages.o  ./src/core/eventScheduler/calendar.o ./src/core/eventScheduler/event.o ./src/core/eventScheduler/simulator.o  ./src/core/cartesianCoodrdinates/CartesianCoordinates.o  ./src/componentManagers/FlowsManager.o ./src/componentManagers/FrameManager.o ./src/componentManagers/NetworkManager.o  ./src/channel/propagation-model/3gpp-downlin-channel-realization.o ./src/channel/propagation-model/channel-realization.o ./src/channel/propagation-model/femtocell-urban-area-channel-realization.o ./src/channel/propagation-model/macrocell-rural-area-channel-realization.o ./src/channel/propagation-model/macrocell-sub-urban-area-channel-realization.o ./src/channel/propagation-model/macrocell-urban-area-channel-realization.o ./src/channel/propagation-model/microcell-area-channel-realization.o ./src/channel/propagation-model/propagation-loss-model.o ./src/channel/propagation-model/winner-downlink-channel-realization.o  ./src/channel/LteChannel.o  ./src/LTE-Sim.o   
+Finished building target: LTE-Sim
+ 
+ln -s Debug/LTE-Sim LTE-Sim 
+clear;
+[3J[H[2Jcat CONFIG/LTE-Sim-end
+                       LTE-Sim                        
+                                                      
+    an open source framework to simulate LTE networks 
+    ------------------------------------------------- 
+                                                      
+                Author: Giuseppe Piro 
+       <g.piro@poliba.it, peppe@giuseppepiro.com>   
+
+   ******************************************************
+    LTE-Sim has been installed correctly on your mashine!
+   ******************************************************
+
+   Now you can star using LTE-Sim.
+ 
+
+   Link: 
+   web:			http://telematics.poliba.it/LTE-Sim
+   mailing list:	http://groups.google.com/group/lte-sim
+
+
+   +++++++++++++++++ ENJOY the LTE-Sim +++++++++++++++++
+
+
