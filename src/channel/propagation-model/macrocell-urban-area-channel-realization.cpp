@@ -48,6 +48,7 @@ MacroCellUrbanAreaChannelRealization::MacroCellUrbanAreaChannelRealization(Netwo
 		  << src->GetIDNetworkNode () << " and " << dst->GetIDNetworkNode () << std::endl;
 #endif
 
+  
   if (_simple_jakes_model_)
 	  SetChannelType (ChannelRealization::CHANNEL_TYPE_JAKES);
   if (_PED_A_)

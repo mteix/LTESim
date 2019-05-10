@@ -499,7 +499,7 @@ static void SingleCellWithInterference (int nbCells, double radius,
 
 	 #ifdef MY_DEBUG
 		std::cout << "-------> DE-BUG 1 " << std::endl;
-		std::cout << "-------> Bia Chata: " << nbCBR << std::endl;
+		std::cout << "-------> nbCBR: " << nbCBR << std::endl;
 	 #endif
 	
 	
@@ -512,7 +512,7 @@ static void SingleCellWithInterference (int nbCells, double radius,
 	 #endif
 
 			CBRApplication[cbrApplication].SetSource (gw);
-			 #ifdef MY_DEBUG
+	 #ifdef MY_DEBUG
 		std::cout << "-------> DE-BUG 2.1 " << std::endl;
 	 #endif
 
@@ -522,6 +522,10 @@ static void SingleCellWithInterference (int nbCells, double radius,
 			CBRApplication[cbrApplication].SetStopTime(duration_time);
 			CBRApplication[cbrApplication].SetInterval (0.04);
 			CBRApplication[cbrApplication].SetSize (5);
+
+ 	#ifdef MY_DEBUG
+		std::cout << "-------> DE-BUG 2.2 " << std::endl;
+	#endif
 	
 		  // create qos parameters
 			QoSParameters *qosParameters = new QoSParameters ();
@@ -544,16 +548,32 @@ static void SingleCellWithInterference (int nbCells, double radius,
 			destinationPort++;
 			applicationID++;
 			cbrApplication++;
+
+
+ 	#ifdef MY_DEBUG
+		std::cout << "-------> DE-BUG 3.0 " << std::endl;
+	#endif
+
 		}
 
 		idUE++;
 
 	}
 
-
-
 	simulator->SetStop(duration);
+
+	#ifdef MY_DEBUG
+		std::cout << "-------> DE-BUG 4.0 " << std::endl;
+	#endif
+
+		
 	simulator->Run ();
+
+ 	#ifdef MY_DEBUG
+		std::cout << "-------> DE-BUG 5.0 " << std::endl;
+	#endif
+
+		
 
 
 

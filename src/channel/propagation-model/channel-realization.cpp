@@ -34,6 +34,7 @@
 
 ChannelRealization::ChannelRealization()
 {
+  
   m_src = NULL;
   m_dst = NULL;
   m_samplingPeriod = 0.5;
@@ -191,17 +192,21 @@ ChannelRealization::UpdateFastFading (void)
     }
 
 
+
   //if (_simple_jakes_model_)
   if (GetChannelType () == ChannelRealization::CHANNEL_TYPE_JAKES)
    {
 	  // number of path = M
 	  //x = 1 -> M=6, x = 2 -> M=8, x = 3 -> M=10, x = 4 -> M=12
 	  int x = 1 + GetRandomVariable (4);
+	//std::cout << "->>>>> Start Jakes " << std::endl;
+   // std::cin.ignore();
+
 	  for (int i = 0; i < numbOfSubChannels; i++)
 		{
 		  //StartJakes allow us to select a window of 0.5ms into the Jakes realization lasting 3s.
 	      int startJakes = GetRandomVariable (2000);
-
+	
 		  FastFadingForTimeDomain ff_time;
 		  if (x == 1)
 			{
@@ -342,6 +347,7 @@ ChannelRealization::UpdateFastFading (void)
 			}
 
 		  m_fastFading->push_back (ff_time);
+		  
 		}
     }
 

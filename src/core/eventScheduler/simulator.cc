@@ -37,6 +37,8 @@ Simulator* Simulator::ptr=NULL;
 
 Simulator::Simulator ()
 {
+  
+  
   m_stop = false;
   m_currentUid = 0;
   m_currentTs = 0;
@@ -70,6 +72,9 @@ Simulator::Run (void)
    * calendar list.
    */
   m_stop = false;
+
+
+
   while (!m_calendar->IsEmpty () && !m_stop)
     {
       ProcessOneEvent ();
