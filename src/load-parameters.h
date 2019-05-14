@@ -28,7 +28,7 @@
 
 
 /* path */
-static std::string path ("/home/marcio/LTESim/");
+static std::string path ("/Users/mjteixeira/LTESim/");
 
 
 /* tracing */
@@ -82,7 +82,7 @@ static bool _channel_AWGN_ = false;
 //#define PLOT_USER_POSITION
 //#define TEST_UL_SINR
 //#define TEST_DL_SINR
-//#define MY_DEBUG 
+#define MY_DEBUG 
 
 #endif /* PARAMETERS_H_ */
                            

@@ -62,7 +62,7 @@ RadioBearer::RadioBearer()
   // Sub-Filter definitions
 
   sigmaQ2 = pow(10,-32);
-  P1Q = pow(10,0);
+  P1Q = pow(10,0); // changed to 1 on 14-May-2019
 
 
   ResetTransmittedBytes ();
@@ -176,6 +176,17 @@ if(q1>0)
   Q = q1;
 else 
   Q = 0;
+
+
+#ifdef MY_DEBUG
+  std::cerr << "\n ------> Sub-Filter parameters \n " <<
+
+  " q1 " << q1 << " eta2 " << eta2 <<
+  "   kq " << kq << "  q0 " << q0 <<
+  "   P0Q " << P0Q << "  P1Q \n" << P1Q 
+
+  << std::endl;
+#endif
 
 
 //##########################
