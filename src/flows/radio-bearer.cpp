@@ -62,7 +62,7 @@ RadioBearer::RadioBearer()
   // Sub-Filter definitions
 
   sigmaQ2 = pow(10,-32);
-  P1Q = pow(10,6);
+  P1Q = pow(10,0);
 
 
   ResetTransmittedBytes ();
@@ -156,7 +156,6 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
   m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
   P0 = (1-K)*Pminus;
 
-/*
 
 // 02-Dec-2018 by MJT
 //##########################
@@ -178,7 +177,6 @@ if(q1>0)
 else 
   Q = 0;
 
-*/
 
 //##########################
 // END KALMAN SUB-FILTER

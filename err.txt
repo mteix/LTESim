@@ -1,0 +1,53 @@
+==21346== Memcheck, a memory error detector
+==21346== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==21346== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==21346== Command: ./LTE-Sim SingleCellWithI 19 0.5 5 1 1 1 1 1 1 2 0.04 128
+==21346== 
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  vector::_M_range_check: __n (which is 1) >= this->size() (which is 0)
+==21346== 
+==21346== Process terminating with default action of signal 6 (SIGABRT)
+==21346==    at 0x5710428: raise (raise.c:54)
+==21346==    by 0x5712029: abort (abort.c:89)
+==21346==    by 0x4EC984C: __gnu_cxx::__verbose_terminate_handler() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==21346==    by 0x4EC76B5: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==21346==    by 0x4EC7700: std::terminate() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==21346==    by 0x4EC7918: __cxa_throw (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==21346==    by 0x4EF03F6: std::__throw_out_of_range_fmt(char const*, ...) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==21346==    by 0x418B81: std::vector<double, std::allocator<double> >::_M_range_check(unsigned long) const (stl_vector.h:803)
+==21346==    by 0x418578: std::vector<double, std::allocator<double> >::at(unsigned long) (stl_vector.h:824)
+==21346==    by 0x452304: MacroCellUrbanAreaChannelRealization::GetLoss() (macrocell-urban-area-channel-realization.cpp:212)
+==21346==    by 0x453026: PropagationLossModel::AddLossModel(NetworkNode*, NetworkNode*, TransmittedSignal*) (propagation-loss-model.cpp:108)
+==21346==    by 0x422897: EnbLtePhy::ReceiveReferenceSymbols(NetworkNode*, TransmittedSignal*) (enb-lte-phy.cpp:215)
+==21346== 
+==21346== HEAP SUMMARY:
+==21346==     in use at exit: 793,524 bytes in 1,058 blocks
+==21346==   total heap usage: 1,799 allocs, 741 frees, 1,549,009 bytes allocated
+==21346== 
+==21346== 144 bytes in 1 blocks are possibly lost in loss record 151 of 240
+==21346==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21346==    by 0x4EC641F: __cxa_allocate_exception (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==21346==    by 0x4EF03CA: std::__throw_out_of_range_fmt(char const*, ...) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==21346==    by 0x418B81: std::vector<double, std::allocator<double> >::_M_range_check(unsigned long) const (stl_vector.h:803)
+==21346==    by 0x418578: std::vector<double, std::allocator<double> >::at(unsigned long) (stl_vector.h:824)
+==21346==    by 0x452304: MacroCellUrbanAreaChannelRealization::GetLoss() (macrocell-urban-area-channel-realization.cpp:212)
+==21346==    by 0x453026: PropagationLossModel::AddLossModel(NetworkNode*, NetworkNode*, TransmittedSignal*) (propagation-loss-model.cpp:108)
+==21346==    by 0x422897: EnbLtePhy::ReceiveReferenceSymbols(NetworkNode*, TransmittedSignal*) (enb-lte-phy.cpp:215)
+==21346==    by 0x4271F4: UeLtePhy::SendReferenceSymbols() (ue-lte-phy.cpp:329)
+==21346==    by 0x4270F7: UeLtePhy::SetTxSignalForReferenceSymbols() (ue-lte-phy.cpp:314)
+==21346==    by 0x427600: Event* MakeEvent<void (UeLtePhy::*)(), UeLtePhy*>(void (UeLtePhy::*)(), UeLtePhy*)::EventMemberImpl0::RunEvent() (make-event.h:90)
+==21346==    by 0x441529: Simulator::ProcessOneEvent() (simulator.cc:88)
+==21346== 
+==21346== LEAK SUMMARY:
+==21346==    definitely lost: 0 bytes in 0 blocks
+==21346==    indirectly lost: 0 bytes in 0 blocks
+==21346==      possibly lost: 144 bytes in 1 blocks
+==21346==    still reachable: 793,380 bytes in 1,057 blocks
+==21346==                       of which reachable via heuristic:
+==21346==                         stdstring          : 94 bytes in 1 blocks
+==21346==         suppressed: 0 bytes in 0 blocks
+==21346== Reachable blocks (those to which a pointer was found) are not shown.
+==21346== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==21346== 
+==21346== For counts of detected and suppressed errors, rerun with: -v
+==21346== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
