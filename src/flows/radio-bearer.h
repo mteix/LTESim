@@ -64,6 +64,11 @@ public:
 	int GetHeadOfLinePacketSize (void);
 	int GetByte (int byte); //for FLS scheduler
 
+//functions (from matrix Kalman implementation)
+	void initialize();
+	void subFilter();
+	double filter(double);
+
 private:
 	Application* m_application;
 
@@ -77,24 +82,47 @@ private:
 	// Kalman filter variables
 
 	
-  	double P0;
-  	double Pminus;
-  	double Q;
-  	double R;
-  	double K;
-  	double xhatminus;
-  
-  // Subfilter variables
 
-  	double q0;
-  	double q1;
-  	double P0Q;
-  	double P1Q;
-  	double zk;
-  	double eta2;
-  	double sigmaQ2;
-  	double kq;
 
+
+//auxiliary
+	int n,i,j,k;
+	double Mat1[2][2],Mat2[2][2],Vec1[2],Vec2[2],aux;  
+
+//global variables
+	double Q[2][2];
+	double R;
+	double H[2];
+	double P0[2][2];
+	double X;
+	double Y;
+	double Z;
+	double W;
+	double Phi[2][2];
+	double P1Q[2][2];
+	double q1[2];
+	double I[2][2];
+	double P1[2][2];
+	double X0[2];
+
+//filter variables
+	double X1[2];
+	double IT;
+	double K[2];
+
+//Subfilter
+	double eta2;
+	double sigmaQ2[2][2];
+	double zk;
+	double M[2];
+	double q0[2];
+	double KQ[2];
+	double PhiQ[2][2];
+	double P0Q[2][2];
+
+/*//void printMat(float **, int , int);
+	double randn (double , double );
+*/
 };
 
 #endif /* RADIOBEARER_H_ */

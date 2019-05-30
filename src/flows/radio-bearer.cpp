@@ -39,6 +39,15 @@
 #include "../load-parameters.h"
 #include <cmath>
 
+
+//##########################################################################################
+//Function: initialize
+//obs.: Initialize filter parameters
+//
+//
+//##########################################################################################
+
+
 RadioBearer::RadioBearer()
 {
   m_macQueue = new MacQueue ();
@@ -52,9 +61,9 @@ RadioBearer::RadioBearer()
   SetRlcEntity(rlc);
 
   // Kalman Filter initial pararameters
-/*  m_averageTransmissionRate = 1000000; //start value = 1kbps
+  m_averageTransmissionRate = 1000000; //start value = 1kbps
   
-  P0 = 1.0;
+ /* P0 = 1.0;
   Q = pow(10,-6);
   R = pow(.1,2);
 
@@ -65,11 +74,11 @@ RadioBearer::RadioBearer()
   P1Q = P0;  // changed on 23-Jan-2019
   q1 = 1.0; // changed on 21-Jan-2019 
 
-*/
 
 
 
- /* P0 =pow(10,6);
+
+  P0 =pow(10,6);
   //P0 = 1;
   Q = pow(10,6);
   R = pow(.1,2);
@@ -77,19 +86,6 @@ RadioBearer::RadioBearer()
   P1Q = pow(10,-6);
   sigmaQ2 = pow(10,-32);
 */
-  m_averageTransmissionRate = 10000; //start value = 10kbps
-  
-  //P0 =pow(10,6);
-  P0 = 1;
-  Q = pow(10,-6); // valor de teste
-  R = pow(.1,2);
-  q1 = 1.0;
-  P1Q = pow(10,6);
-  sigmaQ2 = pow(10,-32);
-
-
-
-
   ResetTransmittedBytes ();
 }
 
@@ -148,35 +144,13 @@ RadioBearer::UpdateAverageTransmissionRate ()
 
   double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUpdate());
 
-  xhatminus = m_averageTransmissionRate;
-  Pminus = P0 + Q;  // #### input calculated Q in KF
+/*Kalman filter and subfilter implementation using matrices*/
+
+RadioBearer::initialize();
+m_averageTransmissionRate = RadioBearer::filter(rate);
 
 
-
-  eta2 = 4*(rate - xhatminus)*(rate - xhatminus)*R + 2*R*R;
-
-// declared in beginning of class sigmaQ2 = pow(10,-32); // 2x 16 digit precision
-  zk = (rate - xhatminus)*(rate - xhatminus)+R-P0;
-
-//calculus of pseudo observation
-
-  kq = P1Q/(P1Q+eta2);
-  q0 = q1 + kq*(zk-q1);
-  P0Q = P1Q*(1-kq);
-  q1 = q0;
-  P1Q = P0Q + sigmaQ2;
-
-  if(q1>0)
-    Q = q1;
-  else 
-    Q = 0;
-
-  //Kalman updates  ##### here we continue with  regular KF
-  K = Pminus/(Pminus + R);
-  m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
-  P0 = (1-K)*Pminus;
-
-
+/*End filter and subfilter*/
 
 #ifdef SCHEDULER_DEBUG
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
@@ -431,3 +405,419 @@ if (maxData < byte)
 return maxData;
 
 }
+
+
+// The Kalman filter and subfilter functions
+void 
+RadioBearer::initialize(){
+
+  #ifdef DEBUG
+  printf("initialize()\n");
+  #endif
+
+  n = 1 ; 
+
+  Q[0][0]=1.0;
+  Q[0][1]=0.0;
+  Q[1][0]=0.0;
+  Q[1][1]=1.0;
+
+  R = 1.0; 
+  H[0] = 1.0;
+  H[1] = 0.0;
+
+  P0[0][0] = 1.0E+6; 
+  P0[0][1] = 0.0;
+  P0[1][0] = 0.0;
+  P0[1][1] = 1.0E+6;
+
+  X = 0.0;
+  Z = X; 
+  W = X;
+
+  Phi[0][0] = 1.0; 
+  Phi[0][1] = 1.0;
+  Phi[1][0] = 0.0;
+  Phi[1][1] = 1.0;
+
+    P1Q[0][0] = 1.0E+6; //10^6*1
+    P1Q[0][1] = 0.0;
+    P1Q[1][0] = 0.0;
+    P1Q[1][1] = 1.0E+6; //10^6*1
+    
+    q1[0] = 1.0;
+    q1[1] = 1.0; 
+    
+    I[0][0]=1.0;
+    I[0][1]=0.0;
+    I[1][0]=0.0;
+    I[1][1]=1.0;
+    
+    X0[0]= 0.0;
+    X0[1]= 0.0;
+
+}
+
+double 
+RadioBearer::filter(double rate){
+
+    #ifdef DEBUG
+  printf("Filter() \n");
+    #endif
+
+// Define the value of X based on input rate
+  Y = rate;
+
+//P1 = Phi*P0*Phi' + Q; //vetor
+  for(i=0;i<2;i++){
+    for(j=0;j<2;j++){
+      Mat1[i][j]=0.0;
+      for(k=0;k<2;k++)
+        Mat1[i][j] += Phi[i][k] * P0[k][j] ;
+    }
+  }
+
+  /*#ifdef DEBUG
+    printf("\nMat1:\n [%f %f] \n [%f %f] \n\n",Mat1[0][0],Mat1[0][1],Mat1[1][0],Mat1[1][1]);
+    #endif
+  */
+  for(i=0;i<2;i++){
+    for(j=0;j<2;j++){
+      Mat2[i][j]=0.0;
+      for(k=0;k<2;k++)
+        Mat2[i][j] += Mat1[i][k] * Phi[j][k] ;
+    }
+  }
+
+  /*#ifdef DEBUG
+    printf("\nMat2:\n [%f %f] \n [%f %f] \n\n",Mat2[0][0],Mat2[0][1],Mat2[1][0],Mat2[1][1]);
+    #endif
+  */
+  for(i=0;i<2;i++){
+    for(j=0;j<2;j++){
+      P1[i][j] = Mat2[i][j] + Q[i][j] ;
+    }
+  }
+
+  #ifdef DEBUG
+  printf("\nP1:\n [%f %f] \n [%f %f] \n\n",P1[0][0],P1[0][1],P1[1][0],P1[1][1]);
+    #endif
+
+//K = P1*H'/(H*P1*H'+R); //vetor
+  for(i=0;i<2;i++){
+    Vec1[i]=0.0;
+    for(k=0;k<2;k++)
+      Vec1[i] += P1[i][k] * H[k] ;
+  }
+
+  for(i=0;i<2;i++){
+    Vec2[i]=0.0;
+    for(k=0;k<2;k++)
+      Vec2[i] += P1[i][k] * H[k] ;
+  }
+
+  aux = 0.0 ;
+  for(k=0;k<2;k++)
+    aux  +=  H[k] * Vec2[k]  ;
+
+  for(i=0;i<2;i++)
+    K[i] = Vec1[i] / (aux+R) ; 
+
+  #ifdef DEBUG
+  printf("\nK:\n [%f] \n [%f] \n\n",K[0],K[1]);
+  #endif
+
+//X1 = Phi*X0;  //vetor
+  for(i=0;i<2;i++){
+    X1[i]=0;
+    for(k=0;k<2;k++)
+      X1[i] += Phi[i][k] * X0[k] ;
+  }
+
+   #ifdef DEBUG
+  printf("\nX1:\n [%f] \n [%f] \n\n",X1[0],X1[1]);
+   #endif
+
+//IT = Y - H*X1; //double
+  aux = 0.0 ;
+  for(k=0;k<2;k++)
+    aux  +=  H[k] * X1[k]  ;
+
+  IT = Y - aux ;
+
+  #ifdef DEBUG
+  printf("\nIT: %f \n",IT);
+  #endif
+
+// if IT/(H*P1*H'+R) >= 3, 
+//     IT = 3*(H*P1*H'+R); 
+// end
+
+// if IT/(H*P1*H'+R) <= -3, 
+//     IT = -3*(H*P1*H'+R); 
+// end
+
+  for(i=0;i<2;i++){
+    Vec2[i]=0.0;
+    for(k=0;k<2;k++)
+      Vec2[i] += P1[i][k] * H[k] ;
+  }
+
+  aux = 0.0 ;
+  for(k=0;k<2;k++)
+    aux  +=  H[k] * Vec2[k]  ;
+
+  double HP1HR = aux + R ;
+
+  if ((IT/HP1HR) >= 3) {
+    IT = 3*HP1HR; 
+  }
+
+  if ((IT/HP1HR) <= -3) {
+    IT = -3*HP1HR; 
+  }
+
+// X0 = X1 + K*IT;
+  for(i=0;i<2;i++)
+    X0[i] = X1[i] + K[i]*IT ;
+
+     #ifdef DEBUG
+  printf("\nX0:\n [%f] \n [%f] \n\n",X0[0],X0[1]);
+     #endif
+
+//P0 = (I - K*H)*P1;    Calculation of pseudo-observation vector
+  for(i=0;i<2;i++)
+    for(j=0;j<2;j++)
+      Mat1[i][j] = K[i] * H[j] ;
+
+    for(i=0;i<2;i++)
+      for(j=0;j<2;j++)
+        Mat2[i][j] = I[i][j] - Mat1[i][j] ;
+
+      for(i=0;i<2;i++)
+        for(j=0;j<2;j++){
+          P0[i][j] = 0.0;
+          for(k=0;k<2;k++)
+            P0[i][j] += (Mat2[i][k] * P1[k][j]) ;
+        } 
+
+      #ifdef DEBUG
+      printf("\nP0:\n [%f %f] \n [%f %f] \n\n",P0[0][0],P0[0][1],P0[1][0],P0[1][1]);
+      #endif
+
+ //[q1,P1Q] = Covmod_q(IT,R,Phi,H,P0,Q,q1,P1Q);
+ subFilter();
+
+ //for j = 1:2, 
+ //    if q1(j,1) >= 0,  
+ //        Q(j,j) = q1(j,1);
+ //    else 
+ //        Q(j,j) = 0; 
+ //    end, 
+ //end
+      int j;
+      for (j=0;j<2;j++){
+        if (q1[j] >= 0){
+          Q[j][j] = q1[j];
+        }else{
+          Q[j][j] = 0;
+        }
+      }
+
+    #ifdef DEBUG
+      printf("\nQ:\n [%f %f] \n [%f %f] \n\n",Q[0][0],Q[0][1],Q[1][0],Q[1][1]);
+    #endif
+
+//X(1) = H*X1;         One-step ahead prediction
+      aux = 0.0 ;
+      for(k=0;k<2;k++)
+        aux  +=  H[k] * X1[k]  ;
+
+      X = aux ;
+
+//Z(1) = H*X0;         Filtered value
+      aux = 0.0 ;
+      for(k=0;k<2;k++)
+        aux  +=  H[k] * X0[k]  ;
+
+      Z = aux ;
+
+//W(1) = H*(Phi^n)*X0; 
+      for(i=0;i<2;i++){
+        Vec1[i]=0.0;
+        for(k=0;k<2;k++)
+          Vec1[i] += pow(Phi[i][k],n) * X0[k] ;
+      }
+
+      aux = 0.0 ;
+      for(k=0;k<2;k++)
+        aux  +=  H[k] * Vec1[k]  ;
+
+      W = aux ;
+      return Z;
+
+    }
+
+void
+RadioBearer::subFilter(){
+
+#ifdef DEBUG
+      printf("subFilter() \n");
+#endif
+
+//eta2 = 4*IT^2*R + 2*R^2;   
+      eta2=4*IT*IT*R+2*R*R;
+
+    #ifdef DEBUG
+      printf("\neta2: %f \n",eta2);
+    #endif   
+
+//sigmaQ2 = 10^(-2*16)*[1 0; 0 1]; 
+sigmaQ2[0][0] = 10.0E-32;//10^(-2*16)*1;
+sigmaQ2[0][1] = 0;
+sigmaQ2[1][0] = 0;
+sigmaQ2[1][1] = 10.0E-32;
+
+//zk = IT^2 + R - H*Phi*P0*Phi'*H'; //double
+
+for(i=0;i<2;i++){
+  for(j=0;j<2;j++){
+    Mat1[i][j]=0.0;
+    for(k=0;k<2;k++)
+      Mat1[i][j] += Phi[i][k] * P0[k][j] ;
+  }
+}
+
+
+for(i=0;i<2;i++){
+  for(j=0;j<2;j++){
+    Mat2[i][j]=0.0;
+    for(k=0;k<2;k++)
+      Mat2[i][j] += Mat1[i][k] * Phi[j][k] ;
+  }
+}
+
+
+for(i=0;i<2;i++){
+  Vec1[i]=0.0;
+  for(k=0;k<2;k++)
+    Vec1[i] += Mat2[i][k] * H[k] ;
+}
+
+aux = 0.0 ;
+for(k=0;k<2;k++)
+  aux  +=  H[k] * Vec1[k]  ;
+
+
+zk = IT*IT + R - aux ;
+
+    #ifdef DEBUG
+printf("\nzk: %f \n",zk);
+    #endif
+
+//M = [1 0];
+M[0] = 1;
+M[1] = 0;
+
+//PhiQ = [1 0; 0 1];
+PhiQ[0][0] = 1; 
+PhiQ[1][0] = 0;
+PhiQ[0][1] = 0;
+PhiQ[1][1] = 1;
+
+//calculo da pseudo-observaçao
+//KQ = P1Q*M'/(M*P1Q*M'+eta2); //vetor 2 linha 1 coluna
+for(i=0;i<2;i++){
+  Vec1[i]=0.0;
+  for(k=0;k<2;k++)
+    Vec1[i] += P1Q[i][k] * M[k] ;
+}
+
+for(i=0;i<2;i++){
+  Vec2[i]=0.0;
+  for(k=0;k<2;k++)
+    Vec2[i] += P1Q[i][k] * M[k] ;
+}
+
+aux = 0.0 ;
+for(k=0;k<2;k++)
+  aux  +=  M[k] * Vec2[k]  ;
+
+for(i=0;i<2;i++)
+  KQ[i] = Vec1[i] / (aux+eta2) ; 
+
+    #ifdef DEBUG
+printf("\nKQ: [%f]\n [%f] \n",KQ[0],KQ[1]);
+    #endif
+//q0 = q1+KQ*(zk-M*q1); //vetor
+aux = 0.0 ;
+for(k=0;k<2;k++)
+  aux  +=  M[k] * q1[k]  ;
+
+for(i=0;i<2;i++)
+  q0[i] = q1[i] + KQ[i] * (zk - aux) ; 
+
+    #ifdef DEBUG
+printf("\nq0: [%f]\n [%f] \n",q0[0],q0[1]);
+    #endif
+
+//P0Q = P1Q - KQ*M*P1Q;  //vetor
+for(i=0;i<2;i++){
+  for(j=0;j<2;j++)
+    Mat1[i][j] = KQ[i] * M[j] ;
+}
+
+for(i=0;i<2;i++){
+  for(j=0;j<2;j++){
+    Mat2[i][j]=0.0;
+    for(k=0;k<2;k++)
+      Mat2[i][j] += Mat1[i][k] * P1Q[k][j] ;
+  }
+}
+
+for(i=0;i<2;i++)
+  for(j=0;j<2;j++)
+    P0Q[i][j] = P1Q[i][j] - Mat2[i][j] ;
+
+    #ifdef DEBUG
+  printf("\nP0Q:\n [%f %f] \n [%f %f] \n\n",P0Q[0][0],P0Q[0][1],P0Q[1][0],P0Q[1][1]);
+    #endif
+
+//q1 = PhiQ*q0; //vetor
+  for(i=0;i<2;i++){
+    q1[i]=0;
+    for(k=0;k<2;k++)
+      q1[i] += PhiQ[i][k] * q0[k] ;
+  }
+
+    #ifdef DEBUG
+  printf("\nq1: [%f]\n [%f] \n",q1[0],q1[1]);
+    #endif
+
+//P1Q = PhiQ*P0Q*PhiQ' + sigmaQ2; //vetor
+  for(i=0;i<2;i++){
+    for(j=0;j<2;j++){
+      Mat1[i][j]=0.0;
+      for(k=0;k<2;k++)
+        Mat1[i][j] += PhiQ[i][k] * P0Q[k][j] ;
+    }
+  }
+  
+  for(i=0;i<2;i++){
+    for(j=0;j<2;j++){
+      Mat2[i][j]=0.0;
+      for(k=0;k<2;k++)
+        Mat2[i][j] += Mat1[i][k] * PhiQ[j][k] ;
+    }
+  }
+  
+  for(i=0;i<2;i++)
+    for(j=0;j<2;j++)
+      P1Q[i][j] = Mat2[i][j] + sigmaQ2[i][j] ;
+
+   #ifdef DEBUG
+    printf("\nP1Q:\n [%f %f] \n [%f %f] \n\n",P1Q[0][0],P1Q[0][1],P1Q[1][0],P1Q[1][1]);
+    printf("\nsigmaQ2: %lf \n\n",sigmaQ2[1][1]);
+   #endif
+
+  }    
