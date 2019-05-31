@@ -28,7 +28,7 @@
 
 
 /* path */
-static std::string path ("/Users/mjteixeira/LTESim/");
+static std::string path ("/home/marcio/LTESim/");
 
 
 /* tracing */
@@ -47,10 +47,10 @@ static bool UPLINK = true;
 static bool _TEST_BLER_ = false;
 
 /* channel model type*/
-static bool _simple_jakes_model_ = true;
+static bool _simple_jakes_model_ = false;
 static bool _PED_A_ = false;
 static bool _PED_B_ = false;
-static bool _VEH_A_ = false;
+static bool _VEH_A_ = true;
 static bool _VEH_B_ = false;
 static bool _channel_TU_ = true;
 static bool _channel_AWGN_ = false;
@@ -83,7 +83,7 @@ static bool _channel_AWGN_ = false;
 //#define PLOT_USER_POSITION
 //#define TEST_UL_SINR
 //#define TEST_DL_SINR
-
+#define MY_DEBUG
 
 #endif /* PARAMETERS_H_ */
                            

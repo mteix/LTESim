@@ -146,19 +146,19 @@ RadioBearer::UpdateAverageTransmissionRate ()
 
 /*Kalman filter and subfilter implementation using matrices*/
 
-RadioBearer::initialize();
-m_averageTransmissionRate = RadioBearer::filter(rate);
+RadioBearer::Initialize();
+m_averageTransmissionRate = RadioBearer::KalmanFilter(rate); //invokes the subfilter in this function
 
 
 /*End filter and subfilter*/
 
-#ifdef SCHEDULER_DEBUG
+#ifdef MY_DEBUG
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
   "\n\t tx byte " << GetTransmittedBytes () <<
   "\n\t interval " << Simulator::Init()->Now() - GetLastUpdate() <<
   "\n\t old rate " << m_averageTransmissionRate <<
-  "\n\t new rate " << rate <<
-  "\n\t new estimated rate ******** SCH_DEB" << m_averageTransmissionRate << std::endl;
+  "\n\t new rate " << rate << std::endl;
+std::cout << "********************************" << std::endl;
 #endif
 
 
@@ -409,7 +409,7 @@ return maxData;
 
 // The Kalman filter and subfilter functions
 void 
-RadioBearer::initialize(){
+RadioBearer::Initialize(){
 
   #ifdef DEBUG
   printf("initialize()\n");
@@ -459,7 +459,7 @@ RadioBearer::initialize(){
 }
 
 double 
-RadioBearer::filter(double rate){
+RadioBearer::KalmanFilter(double rate){
 
     #ifdef DEBUG
   printf("Filter() \n");
@@ -606,7 +606,7 @@ RadioBearer::filter(double rate){
       #endif
 
  //[q1,P1Q] = Covmod_q(IT,R,Phi,H,P0,Q,q1,P1Q);
- subFilter();
+ //KalmanSubFilter();
 
  //for j = 1:2, 
  //    if q1(j,1) >= 0,  
@@ -659,7 +659,7 @@ RadioBearer::filter(double rate){
     }
 
 void
-RadioBearer::subFilter(){
+RadioBearer::KalmanSubFilter(){
 
 #ifdef DEBUG
       printf("subFilter() \n");

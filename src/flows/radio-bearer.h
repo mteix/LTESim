@@ -65,9 +65,9 @@ public:
 	int GetByte (int byte); //for FLS scheduler
 
 //functions (from matrix Kalman implementation)
-	void initialize();
-	void subFilter();
-	double filter(double);
+	void Initialize();
+	void KalmanSubFilter();
+	double KalmanFilter(double);
 
 private:
 	Application* m_application;
