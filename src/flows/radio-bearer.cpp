@@ -157,7 +157,7 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
   P0 = (1-K)*Pminus;
 
 
-// 02-Dec-2018 by MJT
+/*// 02-Dec-2018 by MJT
 //##########################
 //  KALMAN SUB-FILTER
 //##########################
@@ -193,7 +193,7 @@ else
 // END KALMAN SUB-FILTER
 //##########################
 
-
+*/
 //#####################################
 //########## KF END        ############
 //#####################################
@@ -213,9 +213,9 @@ std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
 		  "\n\t tx byte " << GetTransmittedBytes () <<
 		  "\n\t interval " << Simulator::Init()->Now() - GetLastUpdate() <<
-		  "\n\t old rate " << m_averageTransmissionRate <<
-          "\n\t new rate " << rate <<
-		  "\n\t new estimated rate ******** SCH_DEB" << m_averageTransmissionRate << std::endl;
+		  "\n\t Kalman output  " << m_averageTransmissionRate <<
+          "\n\t  rate " << rate << std::endl; 
+		  std::cout << "*********************************************" << std::endl;
 #endif
 
 
