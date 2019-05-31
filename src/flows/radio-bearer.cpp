@@ -198,7 +198,7 @@ else
 
 */
 
-#ifdef SCHEDULER_DEBUG
+#ifdef MY_DEBUG
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
 		  "\n\t tx byte " << GetTransmittedBytes () <<
 		  "\n\t interval " << Simulator::Init()->Now() - GetLastUpdate() <<
