@@ -156,8 +156,13 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
   m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
   P0 = (1-K)*Pminus;
 
+<<<<<<< HEAD
 
 /*// 02-Dec-2018 by MJT
+=======
+/*
+// 02-Dec-2018 by MJT
+>>>>>>> a79c470f55087ff7451e20e1f3debb882628d817
 //##########################
 //  KALMAN SUB-FILTER
 //##########################
@@ -194,6 +199,11 @@ else
 //##########################
 
 */
+<<<<<<< HEAD
+=======
+
+  
+>>>>>>> a79c470f55087ff7451e20e1f3debb882628d817
 //#####################################
 //########## KF END        ############
 //#####################################
