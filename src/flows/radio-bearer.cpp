@@ -156,8 +156,6 @@ double rate = (GetTransmittedBytes () * 8)/(Simulator::Init()->Now() - GetLastUp
   m_averageTransmissionRate = xhatminus + K*(rate - xhatminus);
   P0 = (1-K)*Pminus;
 
-<<<<<<< HEAD
-
 /*// 02-Dec-2018 by MJT
 =======
 /*
@@ -199,26 +197,7 @@ else
 //##########################
 
 */
-<<<<<<< HEAD
-=======
 
-  
->>>>>>> a79c470f55087ff7451e20e1f3debb882628d817
-//#####################################
-//########## KF END        ############
-//#####################################
-
-  
-
-/*
-std::cout << "**** AVG TX (with Kalman) ****  " << m_averageTransmissionRate 
-          << "\n Kalman parameters: P0 " << P0 << ", P1 " << P1 << ", K " << 
-          K << "xhatminus " << xhatminus  << " rate " << rate << std::endl;
-*/
-
-/*std::cout << "\t SFK: " << m_averageTransmissionRate << "\t Rate: " << rate 
-          << "\t TxBytes: "<< GetTransmittedBytes () << std::endl;
-*/
 #ifdef SCHEDULER_DEBUG
   std::cout << "******* SCH_DEB UPDATE AVG RATE, bearer  " << GetApplication ()->GetApplicationID () <<
 		  "\n\t tx byte " << GetTransmittedBytes () <<
