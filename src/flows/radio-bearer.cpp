@@ -62,7 +62,7 @@ RadioBearer::RadioBearer()
 
   // Kalman Filter initial pararameters
   m_averageTransmissionRate = 1000000; //start value = 1kbps
-  
+  RadioBearer::Initialize();
  /* P0 = 1.0;
   Q = pow(10,-6);
   R = pow(.1,2);
@@ -146,7 +146,7 @@ RadioBearer::UpdateAverageTransmissionRate ()
 
 /*Kalman filter and subfilter implementation using matrices*/
 
-RadioBearer::Initialize();
+
 m_averageTransmissionRate = RadioBearer::KalmanFilter(rate); //invokes the subfilter in this function
 
 
