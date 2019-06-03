@@ -149,6 +149,10 @@ RadioBearer::UpdateAverageTransmissionRate ()
 
 m_averageTransmissionRate = RadioBearer::KalmanFilter(rate); //invokes the subfilter in this function
 
+if (m_averageTransmissionRate < 1)
+    {
+    m_averageTransmissionRate = 1;
+    }
 
 /*End filter and subfilter*/
 
@@ -567,15 +571,15 @@ RadioBearer::KalmanFilter(double rate){
   for(k=0;k<2;k++)
     aux  +=  H[k] * Vec2[k]  ;
 
-  double HP1HR = aux + R ;
+  //double HP1HR = aux + R ;
 
-  if ((IT/HP1HR) >= 3) {
-    IT = 3*HP1HR; 
-  }
+  // if ((IT/HP1HR) >= 3) {
+  //   IT = 3*HP1HR; 
+  // }
 
-  if ((IT/HP1HR) <= -3) {
-    IT = -3*HP1HR; 
-  }
+  // if ((IT/HP1HR) <= -3) {
+  //   IT = -3*HP1HR; 
+  // }
 
 // X0 = X1 + K*IT;
   for(i=0;i<2;i++)
@@ -606,7 +610,7 @@ RadioBearer::KalmanFilter(double rate){
       #endif
 
  //[q1,P1Q] = Covmod_q(IT,R,Phi,H,P0,Q,q1,P1Q);
- //KalmanSubFilter();
+ KalmanSubFilter();
 
  //for j = 1:2, 
  //    if q1(j,1) >= 0,  
@@ -615,6 +619,10 @@ RadioBearer::KalmanFilter(double rate){
  //        Q(j,j) = 0; 
  //    end, 
  //end
+    
+//commenting out following statements; probably redundant 
+      
+/*
       int j;
       for (j=0;j<2;j++){
         if (q1[j] >= 0){
@@ -627,6 +635,8 @@ RadioBearer::KalmanFilter(double rate){
     #ifdef DEBUG
       printf("\nQ:\n [%f %f] \n [%f %f] \n\n",Q[0][0],Q[0][1],Q[1][0],Q[1][1]);
     #endif
+*/
+//end 
 
 //X(1) = H*X1;         One-step ahead prediction
       aux = 0.0 ;
