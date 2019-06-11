@@ -24,7 +24,7 @@
 %parameters
 
 %speed = [0, 3, 30 120];
-speed = [0 3 30 120 150, 200, 250, 300, 350];
+speed = [0 3 30 60 90 120 150, 200, 250, 300, 350];
 
 bandwidth = 5e6;
 nb_subChannels = 25;
