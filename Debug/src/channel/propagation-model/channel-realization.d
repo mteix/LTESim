@@ -41,6 +41,8 @@ src/channel/propagation-model/channel-realization.d: \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_0.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_3.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_30.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_60.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_90.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_120.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_150.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_200.h \
@@ -50,6 +52,8 @@ src/channel/propagation-model/channel-realization.d: \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_0.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_3.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_30.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_60.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_90.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_120.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_150.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_200.h \
@@ -59,6 +63,8 @@ src/channel/propagation-model/channel-realization.d: \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_0.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_3.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_30.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_60.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_90.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_120.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_150.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_200.h \
@@ -68,6 +74,8 @@ src/channel/propagation-model/channel-realization.d: \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_0.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_3.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_30.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_60.h \
+  ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_90.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_120.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_150.h \
   ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_200.h \
@@ -173,6 +181,10 @@ src/channel/propagation-model/channel-realization.d: \
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_30.h:
 
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_60.h:
+
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_90.h:
+
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_120.h:
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedA_speed_150.h:
@@ -190,6 +202,10 @@ src/channel/propagation-model/channel-realization.d: \
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_3.h:
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_30.h:
+
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_60.h:
+
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_90.h:
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_PedB_speed_120.h:
 
@@ -209,6 +225,10 @@ src/channel/propagation-model/channel-realization.d: \
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_30.h:
 
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_60.h:
+
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_90.h:
+
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_120.h:
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehA_speed_150.h:
@@ -226,6 +246,10 @@ src/channel/propagation-model/channel-realization.d: \
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_3.h:
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_30.h:
+
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_60.h:
+
+../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_90.h:
 
 ../src/channel/propagation-model/FastFadingRealization/zheng_model/fast-fading_VehB_speed_120.h:
 
