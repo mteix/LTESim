@@ -439,6 +439,44 @@ ChannelRealization::UpdateFastFading (void)
 							  ff_PedA_speed_350[start_point_freq+i][start_point_time+j]);
 					}
 				}
+
+			  if (speed == 60)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedA_speed_60[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 90)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedA_speed_90[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 200)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedA_speed_200[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 250)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedA_speed_200[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+
 			  m_fastFading->push_back (ff_time);
 			}
 		}
@@ -481,6 +519,43 @@ ChannelRealization::UpdateFastFading (void)
 							  ff_PedB_speed_120[start_point_freq+i][start_point_time+j]);
 					}
 				}
+
+				if (speed == 60)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedB_speed_60[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 90)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedB_speed_90[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 200)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedB_speed_200[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 250)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_PedB_speed_200[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
 			  m_fastFading->push_back (ff_time);
 			}
 		}
@@ -561,6 +636,42 @@ ChannelRealization::UpdateFastFading (void)
 					{
 					  ff_time.push_back (
 							  ff_VehA_speed_350[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 60)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehA_speed_60[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 90)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehA_speed_90[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 200)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehA_speed_200[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 250)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehA_speed_200[start_point_freq+i][start_point_time+j]);
 					}
 				}
 			  m_fastFading->push_back (ff_time);
@@ -645,6 +756,43 @@ ChannelRealization::UpdateFastFading (void)
 							  ff_VehB_speed_350[start_point_freq+i][start_point_time+j]);
 					}
 				}
+
+				if (speed == 60)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehB_speed_60[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 90)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehB_speed_90[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 200)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehB_speed_200[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
+				if (speed == 250)
+				{
+				  for (int j = 0; j < samplingTime; j++)
+					{
+					  ff_time.push_back (
+							  ff_VehB_speed_200[start_point_freq+i][start_point_time+j]);
+					}
+				}
+
 			  m_fastFading->push_back (ff_time);
 			}
 		}
